@@ -34,15 +34,26 @@ export function Hero() {
         animate="show"
         className="flex flex-col items-center text-center max-w-6xl mx-auto"
       >
-        <h1 className="font-serif text-[clamp(3.2rem,8.5vw,8.5rem)] leading-[0.95] tracking-[-0.02em] text-center">
-          <span className="block overflow-hidden pb-[0.12em] -mb-[0.12em]">
-            <motion.span variants={line} className="block">
-              engineering by <span className="italic-serif text-[#D93D87]">logic</span>,
-            </motion.span>
-          </span>
-          <span className="block overflow-hidden pb-[0.12em] -mb-[0.12em]">
-            <motion.span variants={line} className="block">
-              designing by <span className="italic-serif">instinct</span>.
+        <h1 className="font-sans font-black text-[clamp(2.75rem,8.8vw,9.5rem)] leading-[0.95] tracking-[-0.04em] text-center uppercase text-neutral-950 dark:text-neutral-100 flex items-center justify-center select-none">
+          <span className="block overflow-hidden pb-[0.08em] -mb-[0.08em]">
+            <motion.span
+              variants={line}
+              className="inline-flex items-center justify-center flex-wrap"
+            >
+              <span>ARMAAN</span>
+              <span
+                className="inline-flex items-center justify-center mx-[0.18em] transition-transform duration-500 ease-out hover:scale-110 hover:rotate-180 cursor-pointer"
+                title="Armaan Verma"
+              >
+                <svg
+                  viewBox="0 0 50 100"
+                  className="h-[0.74em] w-[0.37em] fill-[#D93D87]"
+                  aria-hidden="true"
+                >
+                  <path d="M 0 0 A 50 50 0 0 1 0 100 Z" />
+                </svg>
+              </span>
+              <span>VERMA</span>
             </motion.span>
           </span>
         </h1>
