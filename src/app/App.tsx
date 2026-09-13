@@ -9,29 +9,23 @@ import ProjectDetail from "./pages/project-detail";
 import NotFound from "./pages/not-found";
 
 function ScrollToTop() {
-  const { pathname, hash } = useLocation();
+  const { pathname } = useLocation();
 
   useLayoutEffect(() => {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
 
-    if (!hash) {
-      document.documentElement.style.scrollBehavior = "auto";
-      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-    } else {
-      const el = document.getElementById(hash.slice(1));
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" });
-      } else {
-        requestAnimationFrame(() => {
-          document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: "smooth" });
-        });
-      }
+    document.documentElement.style.scrollBehavior = "auto";
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    // Clean any lingering hash so refreshing doesn't scroll
+    if (window.location.hash) {
+      window.history.replaceState(null, "", window.location.pathname);
     }
-  }, [pathname, hash]);
+  }, [pathname]);
 
   return null;
 }

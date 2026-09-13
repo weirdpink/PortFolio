@@ -14,7 +14,7 @@ export default function ProjectDetail() {
         <h1 className="font-serif text-5xl md:text-7xl mb-6">Not Found</h1>
         <p className="mb-10 text-neutral-500">The project you are looking for does not exist.</p>
         <Link
-          to="/#work"
+          to="/"
           className="eyebrow group inline-flex h-12 items-center justify-center rounded-full border border-black/15 px-8 text-black transition-all hover:bg-black hover:text-white dark:border-white/20 dark:text-white dark:hover:bg-white dark:hover:text-black"
         >
           Return to Work
@@ -35,7 +35,7 @@ export default function ProjectDetail() {
       {/* Top Navigation & Header */}
       <div className="mb-12 md:mb-16">
         <Link
-          to="/#work"
+          to="/"
           className="eyebrow group mb-8 inline-flex h-10 items-center justify-center gap-2 rounded-full border border-black/15 px-5 text-black transition-all hover:bg-black hover:text-white dark:border-white/20 dark:text-white dark:hover:bg-white dark:hover:text-black"
         >
           <ArrowLeft size={15} className="transition-transform duration-300 group-hover:-translate-x-1" />
@@ -249,7 +249,7 @@ export default function ProjectDetail() {
       {/* Footer Navigation */}
       <div className="border-t border-black/10 dark:border-white/10 pt-10 flex justify-between items-center max-w-3xl mx-auto">
         <Link
-          to="/#work"
+          to="/"
           className="eyebrow group inline-flex items-center gap-2 text-black dark:text-white transition-opacity hover:opacity-70"
         >
           <ArrowLeft size={15} className="transition-transform duration-300 group-hover:-translate-x-1" />
