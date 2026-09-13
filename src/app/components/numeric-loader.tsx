@@ -207,8 +207,8 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
                   </div>
                   <div className="h-[2px] w-full bg-black/10 dark:bg-white/10 overflow-hidden relative">
                     <div
-                      className="h-full bg-neutral-950 dark:bg-white transition-all duration-75 ease-linear"
-                      style={{ width: `${pageProgress}%` }}
+                      className="h-full w-full bg-neutral-950 dark:bg-white origin-left"
+                      style={{ transform: `scaleX(${pageProgress / 100})` }}
                     />
                   </div>
                 </div>
