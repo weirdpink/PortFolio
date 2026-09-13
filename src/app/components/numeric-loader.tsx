@@ -86,7 +86,7 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
     };
   };
 
-  // Opening a project page: Personalized editorial loader that actually preloads ALL images
+  // Opening a project page: Personalized editorial loader with a fixed duration
   const startPageLoading = (currentPath: string) => {
     setLoading(true);
 
@@ -95,53 +95,60 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
     setActiveProject(project);
 
     const images = project ? Array.from(new Set([project.cover, ...project.gallery])) : getImagesForRoute(currentPath);
-    const total = images.length;
+    const total = Math.max(1, images.length);
     setTotalAssets(total);
     setAssetsLoaded(0);
 
     let loaded = 0;
-    let finished = false;
 
-    // Safety timeout: dismiss after 2s max so user is never stuck
-    const safetyTimer = setTimeout(() => {
-      if (!finished) {
-        finished = true;
-        setLoading(false);
-      }
-    }, 2200);
-
-    const onAssetDone = () => {
-      loaded++;
-      setAssetsLoaded(loaded);
-      if (loaded >= total && !finished) {
-        finished = true;
-        clearTimeout(safetyTimer);
-        setTimeout(() => {
-          setLoading(false);
-        }, 120);
-      }
-    };
-
-    // Preload and decode each image completely into memory
+    // Preload and decode all images into memory
     images.forEach((src) => {
       const img = new Image();
       img.src = src;
+      const onDone = () => {
+        loaded++;
+      };
       if (img.complete) {
-        onAssetDone();
+        onDone();
       } else {
         img.onload = () => {
           if (typeof img.decode === "function") {
-            img.decode().catch(() => {}).then(onAssetDone);
+            img.decode().catch(() => {}).then(onDone);
           } else {
-            onAssetDone();
+            onDone();
           }
         };
-        img.onerror = onAssetDone;
+        img.onerror = onDone;
       }
     });
 
+    // Fixed duration so the personalized loader is visible for a while (1.1s)
+    const FIXED_DURATION = 1100;
+    const startTime = performance.now();
+    let pageRafId: number;
+
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const timeRatio = Math.min(1, elapsed / FIXED_DURATION);
+
+      // Smoothly advance display counter across the duration
+      const simulatedCount = Math.floor(timeRatio * total);
+      setAssetsLoaded(Math.min(total, Math.max(loaded, simulatedCount)));
+
+      if (elapsed < FIXED_DURATION) {
+        pageRafId = requestAnimationFrame(tick);
+      } else {
+        setAssetsLoaded(total);
+        setTimeout(() => {
+          setLoading(false);
+        }, 100);
+      }
+    };
+
+    pageRafId = requestAnimationFrame(tick);
+
     return () => {
-      clearTimeout(safetyTimer);
+      cancelAnimationFrame(pageRafId);
     };
   };
 
