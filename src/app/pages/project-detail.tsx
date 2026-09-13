@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useParams, Link } from "react-router";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { projects } from "../data";
 import { ImageWithFallback } from "../components/ImageWithFallback";
 import { Reveal } from "../components/reveal";
@@ -19,98 +19,245 @@ export default function ProjectDetail() {
         <h1 className="font-serif text-5xl md:text-7xl mb-6">Not Found</h1>
         <p className="mb-10 text-neutral-500">The project you are looking for does not exist.</p>
         <Link
-          to="/"
+          to="/#work"
           className="eyebrow group inline-flex h-12 items-center justify-center rounded-full border border-black/15 px-8 text-black transition-all hover:bg-black hover:text-white dark:border-white/20 dark:text-white dark:hover:bg-white dark:hover:text-black"
         >
-          Return Home
+          Return to Work
         </Link>
       </div>
     );
   }
 
+  const isDesign = project.discipline === "Design";
+
   return (
-    <article className="mx-auto w-full px-6 py-32 md:px-12 md:py-48">
-      <Reveal className="mb-16 md:mb-24">
+    <article className="mx-auto w-full px-6 py-28 md:px-12 md:py-40">
+      {/* Top Navigation & Header */}
+      <Reveal className="mb-12 md:mb-16">
         <Link
           to="/#work"
-          className="eyebrow group mb-12 inline-flex h-12 items-center justify-center gap-2 rounded-full border border-black/15 px-8 text-black transition-all hover:bg-black hover:text-white dark:border-white/20 dark:text-white dark:hover:bg-white dark:hover:text-black"
+          className="eyebrow group mb-10 inline-flex h-11 items-center justify-center gap-2 rounded-full border border-black/15 px-6 text-black transition-all hover:bg-black hover:text-white dark:border-white/20 dark:text-white dark:hover:bg-white dark:hover:text-black"
         >
-          <ArrowLeft size="0.9em" className="transition-transform duration-300 group-hover:-translate-x-1" />
+          <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-1" />
           Back to Work
         </Link>
-        <div className="eyebrow mb-6 text-neutral-500">{project.category}</div>
-        <h1 className="font-serif text-[clamp(3.5rem,8vw,7rem)] leading-none tracking-tight">
+
+        <div className="flex flex-wrap items-center gap-3 eyebrow text-neutral-500 mb-4 font-mono">
+          <span>{project.discipline.toUpperCase()}</span>
+          <span>•</span>
+          <span>{project.category.toUpperCase()}</span>
+          <span>•</span>
+          <span>{project.year}</span>
+        </div>
+
+        <h1 className="font-serif text-[clamp(3rem,8vw,6.5rem)] leading-[0.98] tracking-tight text-neutral-950 dark:text-neutral-100">
           {project.title}
         </h1>
-        <p className="mt-8 max-w-2xl text-[15px] leading-relaxed text-neutral-700 dark:text-neutral-300">
-          {project.description}
-        </p>
-        
-        {project.tools.length > 0 && (
-          <div className="mt-10 flex flex-wrap gap-2">
-            {project.tools.map((t) => (
-              <span
-                key={t}
-                className="eyebrow cursor-default border border-black/15 px-3 py-1.5 dark:border-white/20"
-              >
-                {t}
-              </span>
-            ))}
+
+        {/* Top Metadata Bar */}
+        <div className="mt-10 grid grid-cols-2 gap-6 border-y border-black/10 py-6 dark:border-white/10 sm:grid-cols-4 md:mt-12">
+          <div>
+            <div className="eyebrow text-neutral-500 mb-1">Role</div>
+            <div className="text-sm font-medium text-neutral-900 dark:text-neutral-100">{project.role}</div>
           </div>
-        )}
+          <div>
+            <div className="eyebrow text-neutral-500 mb-1">Timeline</div>
+            <div className="text-sm font-medium text-neutral-900 dark:text-neutral-100">{project.year}</div>
+          </div>
+          <div>
+            <div className="eyebrow text-neutral-500 mb-1">Discipline</div>
+            <div className="text-sm font-medium text-neutral-900 dark:text-neutral-100">{project.discipline}</div>
+          </div>
+          <div>
+            <div className="eyebrow text-neutral-500 mb-1">Deliverables</div>
+            <div className="text-sm font-medium text-neutral-900 dark:text-neutral-100">{project.tools[0]} & More</div>
+          </div>
+        </div>
       </Reveal>
 
-      {project.cover && (
-        <Reveal delay={0.2} className="mb-12 md:mb-20">
-          <div className="group overflow-hidden bg-neutral-100 dark:bg-neutral-900">
+      {/* ========================================================================= */}
+      {/* DESIGN PROJECTS: EXACT FILL STYLE IMAGE PLACEMENT, DESCRIPTION BELOW     */}
+      {/* ========================================================================= */}
+      {isDesign ? (
+        <>
+          {/* EXACT FILL STYLE IMAGE PLACEMENT (Full bleed filled box grid) */}
+          <div className="w-[calc(100%+3rem)] -ml-6 md:w-[calc(100%+6rem)] md:-ml-12 overflow-hidden border-y border-black/10 dark:border-white/10 bg-black/10 dark:bg-white/10 my-12 md:my-16">
+            {project.category === "Poster" && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px">
+                {project.gallery.map((img, i) => (
+                  <div key={i} className="group relative overflow-hidden bg-neutral-950 aspect-[3/4] w-full">
+                    <ImageWithFallback
+                      src={img}
+                      alt={`${project.title} 0${i + 1}`}
+                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      width={800}
+                      height={1067}
+                    />
+                    <div className="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <span className="eyebrow text-[10px] text-white/90 font-mono tracking-widest">
+                        POSTER // 0{i + 1}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {project.category === "Logo" && (
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-px">
+                {project.gallery.map((img, i) => (
+                  <div key={i} className="group relative overflow-hidden bg-neutral-950 aspect-square w-full p-8 sm:p-14 flex items-center justify-center transition-colors duration-300 hover:bg-neutral-900">
+                    <ImageWithFallback
+                      src={img}
+                      alt={`${project.title} mark 0${i + 1}`}
+                      className="max-h-full max-w-full object-contain transition-transform duration-500 ease-out group-hover:scale-110"
+                      width={400}
+                      height={400}
+                    />
+                    <div className="absolute top-4 left-4">
+                      <span className="eyebrow text-[10px] text-white/50 font-mono tracking-widest">
+                        0{i + 1}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {project.category === "Brand Identity" && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-px">
+                {project.gallery.map((img, i) => (
+                  <div key={i} className="group relative overflow-hidden bg-neutral-950 aspect-[4/3] w-full">
+                    <ImageWithFallback
+                      src={img}
+                      alt={`${project.title} asset 0${i + 1}`}
+                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      width={1000}
+                      height={750}
+                    />
+                    <div className="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <span className="eyebrow text-[10px] text-white/90 font-mono tracking-widest">
+                        SYSTEM COLLATERAL // 0{i + 1}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* DESCRIPTION BELOW ALL THE IMAGES */}
+          <Reveal className="mx-auto max-w-3xl pt-8 pb-16">
+            <div className="eyebrow mb-3 text-neutral-500 font-mono">[ PHILOSOPHY & PROCESS ]</div>
+            <h2 className="font-serif text-3xl sm:text-4xl text-neutral-950 dark:text-neutral-100 leading-snug tracking-tight mb-6">
+              {project.description}
+            </h2>
+            <p className="text-[16px] leading-relaxed text-neutral-700 dark:text-neutral-300 mb-8">
+              {project.overview}
+            </p>
+
+            <div className="border-t border-black/10 dark:border-white/10 pt-8 mt-10">
+              <div className="eyebrow mb-4 text-neutral-500 font-mono">CORE CAPABILITIES</div>
+              <div className="flex flex-wrap gap-2">
+                {project.tools.map((t) => (
+                  <span
+                    key={t}
+                    className="eyebrow border border-black/15 dark:border-white/20 px-3.5 py-1.5 text-xs text-neutral-800 dark:text-neutral-200"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        </>
+      ) : (
+        /* ========================================================================= */
+        /* ENGINEERING PROJECTS: CASE STUDY & FULL STACK ARCHITECTURE               */
+        /* ========================================================================= */
+        <>
+          {/* Main Hero Showcase */}
+          <div className="w-[calc(100%+3rem)] -ml-6 md:w-[calc(100%+6rem)] md:-ml-12 overflow-hidden border-y border-black/10 dark:border-white/10 bg-neutral-950 aspect-[16/9] my-12 md:my-16">
             <ImageWithFallback
               src={project.cover}
               alt={project.title}
-              className="aspect-video w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              width={1280}
-              height={720}
+              className="h-full w-full object-cover"
+              width={1400}
+              height={788}
             />
           </div>
-        </Reveal>
-      )}
 
-      <Reveal delay={0.3} className="mx-auto max-w-3xl mb-20 md:mb-32">
-        <h2 className="font-serif text-4xl mb-6">About the project</h2>
-        <p className="text-neutral-600 dark:text-neutral-400 mb-6 leading-relaxed">
-          This is a draft case study page for {project.title}. 
-          In a full implementation, you would document the problem, the approach, and the final solution here. 
-          Use rich text, headings, and inline images to tell the story of the project.
-        </p>
-        {project.link && (
-          <a
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group eyebrow inline-flex items-center border-b border-black pb-1 text-black transition-opacity hover:opacity-60 dark:border-white dark:text-white"
-          >
-            Visit Live Project
-            <span className="ml-2 inline-block transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
-              ↗
-            </span>
-          </a>
-        )}
-      </Reveal>
-
-      {project.gallery && project.gallery.length > 0 && (
-        <Reveal delay={0.4} className="grid gap-6 md:grid-cols-2">
-          {project.gallery.map((g, i) => (
-            <div key={`${project.id}-gallery-${i}`} className={`group overflow-hidden bg-neutral-100 dark:bg-neutral-900 ${i === 2 ? 'md:col-span-2' : ''}`}>
-              <ImageWithFallback
-                src={g}
-                alt={`${project.title} — image ${i + 1}`}
-                className="aspect-[4/3] w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                width={800}
-                height={600}
-              />
+          <Reveal className="mx-auto max-w-3xl pt-8 pb-16">
+            <div className="flex items-center justify-between gap-4 mb-6">
+              <div className="eyebrow text-neutral-500 font-mono">[ ARCHITECTURE & OVERVIEW ]</div>
+              {project.link && (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="eyebrow group inline-flex items-center gap-1.5 border-b border-black pb-0.5 text-black dark:border-white dark:text-white transition-opacity hover:opacity-70"
+                >
+                  View Repository
+                  <ArrowUpRight size={14} className="transition-transform duration-300 group-hover:rotate-45" />
+                </a>
+              )}
             </div>
-          ))}
-        </Reveal>
+
+            <h2 className="font-serif text-3xl sm:text-4xl text-neutral-950 dark:text-neutral-100 leading-snug tracking-tight mb-6">
+              {project.description}
+            </h2>
+
+            <p className="text-[16px] leading-relaxed text-neutral-700 dark:text-neutral-300 mb-10">
+              {project.overview}
+            </p>
+
+            {/* Key Engineering Features */}
+            {project.features && project.features.length > 0 && (
+              <div className="border-t border-black/10 dark:border-white/10 pt-8 mt-10">
+                <div className="eyebrow mb-5 text-neutral-500 font-mono">KEY SYSTEM HIGHLIGHTS</div>
+                <div className="space-y-3">
+                  {project.features.map((feat, idx) => (
+                    <div key={idx} className="flex items-start gap-3">
+                      <CheckCircle2 size={18} className="text-emerald-500 mt-0.5 shrink-0" />
+                      <span className="text-sm sm:text-[15px] text-neutral-800 dark:text-neutral-200 leading-relaxed">
+                        {feat}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Tech Stack */}
+            <div className="border-t border-black/10 dark:border-white/10 pt-8 mt-10">
+              <div className="eyebrow mb-4 text-neutral-500 font-mono">TECHNOLOGY STACK</div>
+              <div className="flex flex-wrap gap-2">
+                {project.tools.map((t) => (
+                  <span
+                    key={t}
+                    className="eyebrow border border-black/15 dark:border-white/20 px-3.5 py-1.5 text-xs text-neutral-800 dark:text-neutral-200"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        </>
       )}
+
+      {/* Footer Navigation */}
+      <div className="border-t border-black/10 dark:border-white/10 pt-12 flex justify-between items-center max-w-3xl mx-auto">
+        <Link
+          to="/#work"
+          className="eyebrow group inline-flex items-center gap-2 text-black dark:text-white transition-opacity hover:opacity-70"
+        >
+          <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-1" />
+          Back to all work
+        </Link>
+        <span className="eyebrow text-neutral-400 font-mono">PORTFOLIO — 2026</span>
+      </div>
     </article>
   );
 }
+

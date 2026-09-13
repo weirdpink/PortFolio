@@ -1,307 +1,107 @@
 import { useState } from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { Link } from "react-router";
+import { ArrowUpRight } from "lucide-react";
 import { ImageWithFallback } from "./ImageWithFallback";
 import { SectionMarker } from "./section-marker";
 import { Reveal } from "./reveal";
 import { projects, type Project } from "../data";
 import { EASE } from "../constants";
 
-function ProjectMeta({ project, index }: { project: Project; index: number }) {
+function WorkCard({ project, index }: { project: Project; index: number }) {
   return (
-    <div className="mb-12">
-      <div className="eyebrow mb-4 flex items-center gap-3">
-        <span>{String(index + 1).padStart(2, "0")}</span>
-        <span className="h-px w-6 bg-black/20 dark:bg-white/25" />
-        <span>{project.category}</span>
-      </div>
-      <h3 className="font-serif text-[clamp(2rem,4vw,3rem)] leading-[1.02] tracking-tight">
-        {project.title}
-      </h3>
-      <p className="mt-5 max-w-4xl text-[15px] leading-relaxed text-neutral-700 dark:text-neutral-300">
-        {project.description}
-      </p>
-
-      {project.tools.length > 0 && (
-        <div className="mt-6 flex flex-wrap gap-2">
-          {project.tools.map((t) => (
-            <motion.span
-              key={t}
-              whileHover={{ y: -3 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 20 }}
-              className="eyebrow cursor-default border border-black/15 px-3 py-1.5 dark:border-white/20"
-            >
-              {t}
-            </motion.span>
-          ))}
-        </div>
-      )}
-
-      {(project.link || project.caseStudy) && (
-        <div className="mt-7 flex items-center gap-6">
-          {project.link && (
-            <a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group eyebrow flex items-center gap-1.5 text-black dark:text-white"
-            >
-              <span className="relative pb-1 after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 after:bg-current after:transition-all after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:after:w-full">
-                Visit
-              </span>
-              <span className="inline-block transition-transform duration-300 group-hover:rotate-45">
-                ↗
-              </span>
-            </a>
-          )}
-          {project.caseStudy && (
-            <Link
-              to={project.caseStudy}
-              className="group eyebrow flex items-center gap-1.5 text-black dark:text-white"
-            >
-              <span className="relative pb-1 after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 after:bg-current after:transition-all after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:after:w-full">
-                Case study
-              </span>
-            </Link>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function Placeholder({ className }: { className?: string }) {
-  return <div className={`bg-neutral-200 dark:bg-neutral-800 ${className ?? ""}`} />;
-}
-
-function ProjectRow({ project, index }: { project: Project; index: number }) {
-  if (project.category === "Website") {
-    return (
-      <motion.article
-        className="border-t border-black/10 py-14 dark:border-white/10 md:py-20"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease: EASE }}
-      >
-        <ProjectMeta project={project} index={index} />
-
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-          <div className="grid grid-rows-2 gap-4 md:col-span-2">
-            {project.gallery?.[0] ? (
-              <div className="group overflow-hidden bg-neutral-100 dark:bg-neutral-900 aspect-video w-full">
-                <ImageWithFallback src={project.gallery[0]} alt={`${project.title} screenshot`} className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" width={640} height={360} />
-              </div>
-            ) : (
-              <Placeholder className="aspect-video w-full" />
-            )}
-            {project.gallery?.[1] ? (
-              <div className="group overflow-hidden bg-neutral-100 dark:bg-neutral-900 aspect-video w-full">
-                <ImageWithFallback src={project.gallery[1]} alt={`${project.title} screenshot`} className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" width={640} height={360} />
-              </div>
-            ) : (
-              <Placeholder className="aspect-video w-full" />
-            )}
-          </div>
-          {project.gallery?.[2] || project.cover ? (
-            <div className="group overflow-hidden bg-neutral-100 dark:bg-neutral-900 w-full h-full min-h-[300px] md:col-span-3">
-              <ImageWithFallback src={project.gallery?.[2] || project.cover!} alt={`${project.title} screenshot`} className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" width={960} height={540} />
-            </div>
-          ) : (
-            <Placeholder className="w-full h-full min-h-[300px] md:col-span-3" />
-          )}
-        </div>
-      </motion.article>
-    );
-  }
-
-  if (project.category === "Brand Identity") {
-    return (
-      <motion.article
-        className="border-t border-black/10 py-14 dark:border-white/10 md:py-20"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease: EASE }}
-      >
-        <ProjectMeta project={project} index={index} />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {project.gallery?.[0] || project.cover ? (
-            <div className="group overflow-hidden bg-neutral-100 dark:bg-neutral-900 aspect-square w-full">
-              <ImageWithFallback src={project.gallery?.[0] || project.cover!} alt={`${project.title} — image 1`} className="w-full h-full object-cover transition-all duration-700" width={600} height={600} />
-            </div>
-          ) : (
-            <Placeholder className="aspect-square w-full" />
-          )}
-          <div className="grid grid-rows-2 gap-4">
-            {project.gallery?.[1] ? (
-              <div className="group overflow-hidden bg-neutral-100 dark:bg-neutral-900 w-full h-full min-h-[150px]">
-                <ImageWithFallback src={project.gallery[1]} alt={`${project.title} — image 2`} className="w-full h-full object-cover transition-all duration-700" width={600} height={300} />
-              </div>
-            ) : (
-              <Placeholder className="w-full h-full" />
-            )}
-            {project.gallery?.[2] ? (
-              <div className="group overflow-hidden bg-neutral-100 dark:bg-neutral-900 w-full h-full min-h-[150px]">
-                <ImageWithFallback src={project.gallery[2]} alt={`${project.title} — image 3`} className="w-full h-full object-cover transition-all duration-700" width={600} height={300} />
-              </div>
-            ) : (
-              <Placeholder className="w-full h-full" />
-            )}
-          </div>
-        </div>
-      </motion.article>
-    );
-  }
-
-  const flip = index % 2 === 1;
-  return (
-    <motion.article
-      className="grid items-center gap-8 border-t border-black/10 py-14 dark:border-white/10 md:grid-cols-12 md:gap-12 md:py-20"
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8, ease: EASE }}
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.5, ease: EASE }}
+      className="relative w-full overflow-hidden"
     >
-      <div
-        className={project.cover ? `md:col-span-7 ${flip ? "md:order-2 md:col-start-6" : "md:order-1"}` : "md:col-span-12 order-2 w-[calc(100%+3rem)] -ml-6 md:w-[calc(100%+6rem)] md:-ml-12"}
+      <Link
+        to={project.caseStudy}
+        aria-label={`View project ${project.title}`}
+        className="group relative block aspect-square w-full overflow-hidden bg-neutral-950 select-none"
       >
-        {project.category === "Logo" ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-0">
-            {[...Array(6)].map((_, i) => (
-              project.gallery?.[i] ? (
-                <div key={`${project.id}-logo-${i}`} className="group overflow-hidden bg-neutral-100 dark:bg-neutral-900 aspect-square w-full">
-                  <ImageWithFallback src={project.gallery[i]} alt={`${project.title} logo ${i + 1}`} className="w-full h-full object-cover transition-all duration-700" width={300} height={300} />
-                </div>
-              ) : (
-                <div key={`${project.id}-logo-${i}`} className="bg-neutral-200 dark:bg-neutral-800 aspect-square w-full" />
-              )
-            ))}
+        {/* Full bleed image filling the box */}
+        <ImageWithFallback
+          src={project.cover}
+          alt={project.title}
+          className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          width={800}
+          height={600}
+        />
+
+        {/* Gradient overlay for high legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/25 p-5 sm:p-6 md:p-7 flex flex-col justify-between transition-colors duration-300 group-hover:from-black/95 group-hover:via-black/50">
+          {/* Top metadata */}
+          <div className="flex items-center justify-between gap-3">
+            <span className="eyebrow font-mono text-[11px] tracking-widest text-white/80">
+              [ 0{index + 1} ]
+            </span>
+            <span className="rounded-full bg-white/10 px-2.5 py-0.5 text-[10px] tracking-widest text-neutral-200 font-sans uppercase border border-white/15 backdrop-blur-md">
+              {project.discipline} • {project.category}
+            </span>
           </div>
-        ) : (
-          <>
-            {project.cover && (
-              <div className="group relative overflow-hidden bg-neutral-100 dark:bg-neutral-900">
-                <ImageWithFallback
-                  src={project.cover}
-                  alt={project.title}
-                  className="aspect-[4/3] w-full object-cover transition-all duration-700 group-hover:scale-[1.03]"
-                  width={800}
-                  height={600}
-                />
+
+          {/* Bottom title, excerpt, and arrow */}
+          <div className="transform transition-transform duration-300 ease-out group-hover:-translate-y-1">
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <h3 className="font-serif text-2xl sm:text-[28px] text-white leading-tight tracking-tight">
+                  {project.title}
+                </h3>
+                <p className="mt-2 line-clamp-1 text-xs sm:text-[13px] text-neutral-300 font-sans leading-relaxed">
+                  {project.description}
+                </p>
               </div>
-            )}
-            {project.gallery && project.gallery.length > 0 && (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-0">
-                {project.gallery.map((g, i) => (
-                  <motion.div 
-                    key={`${project.id}-gallery-${i}`}
-                    className="group overflow-hidden bg-neutral-100 dark:bg-neutral-900"
-                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.7, delay: i * 0.1, ease: EASE }}
+
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-all duration-300 group-hover:border-white group-hover:bg-white group-hover:text-black group-hover:rotate-45">
+                <ArrowUpRight size={18} />
+              </span>
+            </div>
+
+            {/* Tools badges */}
+            {project.tools.length > 0 && (
+              <div className="mt-3.5 flex flex-wrap gap-1.5 opacity-90 transition-opacity duration-300">
+                {project.tools.slice(0, 3).map((t) => (
+                  <span
+                    key={t}
+                    className="eyebrow rounded-sm border border-white/20 bg-black/30 px-2 py-0.5 text-[9px] text-neutral-300 backdrop-blur-sm"
                   >
-                    <ImageWithFallback
-                      src={g}
-                      alt={`${project.title} — image ${i + 2}`}
-                      className={project.cover 
-                        ? "aspect-square w-full object-cover transition-all duration-700 group-hover:scale-105" 
-                        : "w-full h-auto transition-all duration-700 group-hover:scale-105"}
-                      width={400}
-                      height={400}
-                    />
-                  </motion.div>
+                    {t}
+                  </span>
                 ))}
+                {project.tools.length > 3 && (
+                  <span className="eyebrow text-[9px] text-neutral-400 self-center pl-1">
+                    +{project.tools.length - 3}
+                  </span>
+                )}
               </div>
             )}
-          </>
-        )}
-      </div>
-
-      <div
-        className={project.cover ? `md:col-span-4 ${flip ? "md:order-1 md:col-start-1" : "md:order-2 md:col-start-9"}` : "md:col-span-12 order-1 mb-4"}
-      >
-        <div className="eyebrow mb-4 flex items-center gap-3">
-          <span>{String(index + 1).padStart(2, "0")}</span>
-          <span className="h-px w-6 bg-black/20 dark:bg-white/25" />
-          <span>{project.category}</span>
+          </div>
         </div>
-        <h3 className="font-serif text-[clamp(2rem,4vw,3rem)] leading-[1.02] tracking-tight">
-          {project.title}
-        </h3>
-        <p className="mt-5 max-w-md text-[15px] leading-relaxed text-neutral-700 dark:text-neutral-300">
-          {project.description}
-        </p>
-
-        {project.tools.length > 0 && (
-          <div className="mt-6 flex flex-wrap gap-2">
-            {project.tools.map((t) => (
-              <motion.span
-                key={t}
-                whileHover={{ y: -3 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                className="eyebrow cursor-default border border-black/15 px-3 py-1.5 dark:border-white/20"
-              >
-                {t}
-              </motion.span>
-            ))}
-          </div>
-        )}
-
-        {(project.link || project.caseStudy) && (
-          <div className="mt-7 flex items-center gap-6">
-            {project.link && (
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group eyebrow flex items-center gap-1.5 text-black dark:text-white"
-              >
-                <span className="relative pb-1 after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 after:bg-current after:transition-all after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:after:w-full">
-                  Visit
-                </span>
-                <span className="inline-block transition-transform duration-300 group-hover:rotate-45">
-                  ↗
-                </span>
-              </a>
-            )}
-            {project.caseStudy && (
-              <Link
-                to={project.caseStudy}
-                className="group eyebrow flex items-center gap-1.5 text-black dark:text-white"
-              >
-                <span className="relative pb-1 after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 after:bg-current after:transition-all after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:after:w-full">
-                  Case study
-                </span>
-              </Link>
-            )}
-          </div>
-        )}
-      </div>
-    </motion.article>
+      </Link>
+    </motion.div>
   );
 }
 
 export function Work() {
-  const [filter, setFilter] = useState<"Design" | "Engineering">("Design");
+  const [filter, setFilter] = useState<"All" | "Design" | "Engineering">("All");
 
-  const filteredProjects = projects.filter(p => {
-    if (filter === "Design") return ["Poster", "Logo", "Brand Identity"].includes(p.category);
-    if (filter === "Engineering") return ["Website"].includes(p.category);
-    return true;
+  const filteredProjects = projects.filter((p) => {
+    if (filter === "All") return true;
+    return p.discipline === filter;
   });
 
   return (
-    <section id="work" className="mx-auto w-full px-6 py-24 md:px-12 md:py-32">
-      <div className="mb-12 flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
+    <section id="work" className="w-full py-24 md:py-32">
+      {/* Header Row */}
+      <div className="mx-auto w-full px-6 md:px-12 mb-12 flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
         <Reveal className="max-w-sm">
           <SectionMarker index="02" label="Work" />
           <p className="mt-6 text-[15px] leading-relaxed text-neutral-500">
-            Websites, posters, logos, and comprehensive brand identity systems. I craft visual experiences that tell stories and solve problems.
+            A curated showcase of 6 projects spanning editorial design systems and full-stack software engineering. Click any card to view the complete case study.
           </p>
         </Reveal>
 
@@ -312,12 +112,17 @@ export function Work() {
             </h2>
           </Reveal>
 
+          {/* Filter Pills */}
           <Reveal as="div" delay={0.2} className="flex items-center gap-1 rounded-full border border-black/10 p-1.5 dark:border-white/10">
-            {(["Design", "Engineering"] as const).map(tab => (
+            {(["All", "Design", "Engineering"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setFilter(tab)}
-                className={`relative rounded-full px-6 py-2 text-sm font-medium transition-colors ${filter === tab ? "text-white dark:text-black" : "text-neutral-500 hover:text-black dark:text-neutral-400 dark:hover:text-white"}`}
+                className={`relative rounded-full px-5 py-2 text-sm font-medium transition-colors ${
+                  filter === tab
+                    ? "text-white dark:text-black"
+                    : "text-neutral-500 hover:text-black dark:text-neutral-400 dark:hover:text-white"
+                }`}
               >
                 {filter === tab && (
                   <motion.div
@@ -326,18 +131,26 @@ export function Work() {
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
-                <span className="relative z-10">{tab}</span>
+                <span className="relative z-10">
+                  {tab} {tab === "All" ? "(6)" : "(3)"}
+                </span>
               </button>
             ))}
           </Reveal>
         </div>
       </div>
 
-      <div className="flex flex-col">
-        {filteredProjects.map((p, i) => (
-          <ProjectRow key={p.id} project={p} index={i} />
-        ))}
+      {/* 6 Filled Box Cards Grid (Edge-to-edge perfect squares) */}
+      <div className="w-full overflow-hidden border-y border-black/10 dark:border-white/10 bg-black/10 dark:bg-white/10">
+        <div className="grid grid-cols-1 gap-px sm:grid-cols-2 lg:grid-cols-3">
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((p, i) => (
+              <WorkCard key={p.id} project={p} index={i} />
+            ))}
+          </AnimatePresence>
+        </div>
       </div>
     </section>
   );
 }
+
