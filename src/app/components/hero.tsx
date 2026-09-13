@@ -52,18 +52,6 @@ export function Hero() {
           className="mt-16 flex flex-wrap items-center justify-center gap-8 md:gap-12 font-sans text-[10px] md:text-xs tracking-[0.15em] text-neutral-500 dark:text-neutral-400 uppercase"
         >
           <a
-            href="#work"
-            className="group border-b border-black/20 pb-1 transition-colors hover:border-black hover:text-black dark:border-white/20 dark:hover:border-white dark:hover:text-white"
-          >
-            VIEW WORK
-          </a>
-          <a
-            href="#about"
-            className="group border-b border-black/20 pb-1 transition-colors hover:border-black hover:text-black dark:border-white/20 dark:hover:border-white dark:hover:text-white"
-          >
-            ABOUT ME
-          </a>
-          <a
             href="#contact"
             className="group border-b border-black/20 pb-1 transition-colors hover:border-black hover:text-black dark:border-white/20 dark:hover:border-white dark:hover:text-white"
           >
