@@ -24,6 +24,7 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
   const [count, setCount] = useState(0);
   const [isInitial, setIsInitial] = useState(true);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
+  const [pageProgress, setPageProgress] = useState(0);
   const [assetsLoaded, setAssetsLoaded] = useState(0);
   const [totalAssets, setTotalAssets] = useState(0);
 
@@ -86,9 +87,10 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
     };
   };
 
-  // Opening a project page: Personalized editorial loader with a fixed duration
+  // Opening a project page: Continuous real-time progress across 1.1s
   const startPageLoading = (currentPath: string) => {
     setLoading(true);
+    setPageProgress(0);
 
     const id = currentPath.replace("/project/", "");
     const project = projects.find((p) => p.id === id) || null;
@@ -122,22 +124,26 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
       }
     });
 
-    // Fixed duration so the personalized loader is visible for a while (1.1s)
+    // Continuous smooth progression across 1.1s
     const FIXED_DURATION = 1100;
     const startTime = performance.now();
     let pageRafId: number;
 
     const tick = (now: number) => {
       const elapsed = now - startTime;
-      const timeRatio = Math.min(1, elapsed / FIXED_DURATION);
+      const progressRatio = Math.min(1, elapsed / FIXED_DURATION);
+      const currentPercent = Math.min(100, Math.floor(progressRatio * 100));
 
-      // Smoothly advance display counter across the duration
-      const simulatedCount = Math.floor(timeRatio * total);
+      setPageProgress(currentPercent);
+
+      // Smoothly advance display asset counter
+      const simulatedCount = Math.ceil(progressRatio * total);
       setAssetsLoaded(Math.min(total, Math.max(loaded, simulatedCount)));
 
       if (elapsed < FIXED_DURATION) {
         pageRafId = requestAnimationFrame(tick);
       } else {
+        setPageProgress(100);
         setAssetsLoaded(total);
         setTimeout(() => {
           setLoading(false);
@@ -174,7 +180,7 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
               </div>
             </div>
           ) : (
-            /* 2. Opening a project page: Personalized editorial loader with live asset caching */
+            /* 2. Opening a project page: Personalized editorial loader with continuous live progress */
             <div className="flex h-full w-full flex-col justify-between p-8 sm:p-14 md:p-20">
               {/* Top metadata bar */}
               <div className="flex items-center justify-between font-mono text-[10px] tracking-[0.25em] text-neutral-400 sm:text-xs">
@@ -191,18 +197,18 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
                   {activeProject?.title || "Project"}
                 </h2>
 
-                {/* Live asset preloading indicator */}
-                <div className="flex flex-col gap-2 w-full max-w-sm">
+                {/* Continuous live progress indicator */}
+                <div className="flex flex-col gap-2.5 w-full max-w-sm">
                   <div className="flex justify-between font-mono text-[11px] tracking-wider text-neutral-500">
                     <span>CACHING HIGH-RES ASSETS</span>
-                    <span>
-                      {assetsLoaded} / {totalAssets}
+                    <span className="tabular-nums font-mono font-medium text-neutral-950 dark:text-neutral-100">
+                      {pageProgress}%
                     </span>
                   </div>
                   <div className="h-[2px] w-full bg-black/10 dark:bg-white/10 overflow-hidden relative">
                     <div
-                      className="h-full bg-neutral-950 dark:bg-white transition-all duration-150 ease-out"
-                      style={{ width: `${totalAssets > 0 ? (assetsLoaded / totalAssets) * 100 : 0}%` }}
+                      className="h-full bg-neutral-950 dark:bg-white transition-all duration-75 ease-linear"
+                      style={{ width: `${pageProgress}%` }}
                     />
                   </div>
                 </div>
@@ -210,7 +216,9 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
 
               {/* Bottom metadata bar */}
               <div className="flex items-center justify-between font-mono text-[10px] tracking-[0.25em] text-neutral-400 sm:text-xs">
-                <span>INDEXING ASSETS</span>
+                <span>
+                  ASSETS INDEXED: {assetsLoaded} / {totalAssets}
+                </span>
                 <span>STANDBY</span>
               </div>
             </div>
