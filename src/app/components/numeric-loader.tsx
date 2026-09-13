@@ -31,7 +31,12 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
       startLoading(pathname);
     } else if (prevPathname.current !== pathname) {
       prevPathname.current = pathname;
-      startLoading(pathname);
+      // Only show loader when navigating into a project page, never when going back
+      if (pathname.startsWith("/project/")) {
+        startLoading(pathname);
+      } else {
+        setLoading(false);
+      }
     }
   }, [pathname]);
 
