@@ -20,6 +20,9 @@ function WorkCard({ project }: { project: Project }) {
     >
       <Link
         to={project.caseStudy}
+        onClick={() => {
+          window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+        }}
         aria-label={`View project ${project.title}`}
         className="group relative block aspect-square w-full overflow-hidden bg-neutral-950 select-none"
       >

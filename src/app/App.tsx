@@ -12,8 +12,15 @@ function ScrollToTop() {
   const { pathname, hash } = useLocation();
 
   useLayoutEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
     if (!hash) {
-      window.scrollTo(0, 0);
+      document.documentElement.style.scrollBehavior = "auto";
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
     } else {
       const el = document.getElementById(hash.slice(1));
       if (el) {
