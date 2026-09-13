@@ -12,12 +12,15 @@ import NotFound from "./pages/not-found";
 function ScrollToTop() {
   const { pathname } = useLocation();
   const prevPathname = useRef(pathname);
+  const isRestoring = useRef(false);
 
   // Continuously record scroll position while on the home page
   useEffect(() => {
     if (pathname === "/") {
       const onScroll = () => {
-        sessionStorage.setItem("homeScrollPos", String(window.scrollY));
+        if (!isRestoring.current && window.scrollY > 50) {
+          sessionStorage.setItem("homeScrollPos", String(window.scrollY));
+        }
       };
       window.addEventListener("scroll", onScroll, { passive: true });
       return () => window.removeEventListener("scroll", onScroll);
@@ -39,6 +42,7 @@ function ScrollToTop() {
     } else if (pathname === "/") {
       // Returning from a project page: restore saved position so you stay where you were
       if (prevPathname.current.startsWith("/project/")) {
+        isRestoring.current = true;
         sessionStorage.setItem("returningFromProject", "true");
         const stored = sessionStorage.getItem("homeScrollPos");
         if (stored) {
@@ -47,11 +51,29 @@ function ScrollToTop() {
             window.scrollTo({ top: pos, left: 0, behavior: "instant" });
             document.documentElement.scrollTop = pos;
             document.body.scrollTop = pos;
+
+            requestAnimationFrame(() => {
+              window.scrollTo({ top: pos, left: 0, behavior: "instant" });
+              document.documentElement.scrollTop = pos;
+              document.body.scrollTop = pos;
+            });
+
+            setTimeout(() => {
+              window.scrollTo({ top: pos, left: 0, behavior: "instant" });
+              document.documentElement.scrollTop = pos;
+              document.body.scrollTop = pos;
+              isRestoring.current = false;
+            }, 80);
+          } else {
+            isRestoring.current = false;
           }
+        } else {
+          isRestoring.current = false;
         }
+
         setTimeout(() => {
           sessionStorage.removeItem("returningFromProject");
-        }, 350);
+        }, 400);
       } else {
         // Direct initial load or refresh: start at top
         window.scrollTo({ top: 0, left: 0, behavior: "instant" });
