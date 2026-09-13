@@ -159,8 +159,8 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
             <div className="flex h-full w-full flex-col items-center justify-center p-6 text-center">
               <div className="flex flex-col items-center gap-3.5 w-full max-w-xs">
                 {/* Waiting text */}
-                <span className="font-mono text-xs tracking-[0.25em] text-neutral-500 uppercase">
-                  LOADING...
+                <span className="font-mono text-xs tracking-[0.2em] text-neutral-500 uppercase">
+                  PLEASE WAIT A MOMENT...
                 </span>
 
                 {/* Loading bar */}
