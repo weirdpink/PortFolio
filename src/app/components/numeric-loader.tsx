@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { projects, type Project } from "../data";
+import { projects } from "../data";
 
 // Helper to collect images based on route
 export function getImagesForRoute(pathname: string): string[] {
@@ -23,10 +23,7 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
   const [isInitial, setIsInitial] = useState(true);
-  const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [pageProgress, setPageProgress] = useState(0);
-  const [assetsLoaded, setAssetsLoaded] = useState(0);
-  const [totalAssets, setTotalAssets] = useState(0);
 
   const isFirstMount = useRef(true);
   const prevPathname = useRef(pathname);
@@ -92,35 +89,18 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
     setLoading(true);
     setPageProgress(0);
 
-    const id = currentPath.replace("/project/", "");
-    const project = projects.find((p) => p.id === id) || null;
-    setActiveProject(project);
-
-    const images = project ? Array.from(new Set([project.cover, ...project.gallery])) : getImagesForRoute(currentPath);
-    const total = Math.max(1, images.length);
-    setTotalAssets(total);
-    setAssetsLoaded(0);
-
-    let loaded = 0;
+    const images = getImagesForRoute(currentPath);
 
     // Preload and decode all images into memory
     images.forEach((src) => {
       const img = new Image();
       img.src = src;
-      const onDone = () => {
-        loaded++;
-      };
-      if (img.complete) {
-        onDone();
-      } else {
+      if (!img.complete) {
         img.onload = () => {
           if (typeof img.decode === "function") {
-            img.decode().catch(() => {}).then(onDone);
-          } else {
-            onDone();
+            img.decode().catch(() => {});
           }
         };
-        img.onerror = onDone;
       }
     });
 
@@ -136,15 +116,10 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
 
       setPageProgress(currentPercent);
 
-      // Smoothly advance display asset counter
-      const simulatedCount = Math.ceil(progressRatio * total);
-      setAssetsLoaded(Math.min(total, Math.max(loaded, simulatedCount)));
-
       if (elapsed < FIXED_DURATION) {
         pageRafId = requestAnimationFrame(tick);
       } else {
         setPageProgress(100);
-        setAssetsLoaded(total);
         setTimeout(() => {
           setLoading(false);
         }, 100);
@@ -180,46 +155,26 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
               </div>
             </div>
           ) : (
-            /* 2. Opening a project page: Personalized editorial loader with continuous live progress */
-            <div className="flex h-full w-full flex-col justify-between p-8 sm:p-14 md:p-20">
-              {/* Top metadata bar */}
-              <div className="flex items-center justify-between font-mono text-[10px] tracking-[0.25em] text-neutral-400 sm:text-xs">
-                <span>[ ARMAAN VERMA ]</span>
-                <span>PROJECT CASE STUDY</span>
-              </div>
-
-              {/* Center personalized project intro */}
-              <div className="flex flex-col items-start justify-center max-w-2xl">
-                <div className="eyebrow text-neutral-500 mb-3 font-mono text-[11px] tracking-[0.25em]">
-                  [ {activeProject?.discipline?.toUpperCase() || "DESIGN"} • {activeProject?.category?.toUpperCase() || "CASE STUDY"} ]
-                </div>
-                <h2 className="font-serif text-[clamp(2.5rem,6vw,4.5rem)] leading-none tracking-tight text-neutral-950 dark:text-neutral-100 mb-6">
-                  {activeProject?.title || "Project"}
-                </h2>
-
-                {/* Continuous live progress indicator */}
-                <div className="flex flex-col gap-2.5 w-full max-w-sm">
-                  <div className="flex justify-between font-mono text-[11px] tracking-wider text-neutral-500">
-                    <span>CACHING HIGH-RES ASSETS</span>
-                    <span className="tabular-nums font-mono font-medium text-neutral-950 dark:text-neutral-100">
-                      {pageProgress}%
-                    </span>
-                  </div>
-                  <div className="h-[2px] w-full bg-black/10 dark:bg-white/10 overflow-hidden relative">
-                    <div
-                      className="h-full w-full bg-neutral-950 dark:bg-white origin-left"
-                      style={{ transform: `scaleX(${pageProgress / 100})` }}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Bottom metadata bar */}
-              <div className="flex items-center justify-between font-mono text-[10px] tracking-[0.25em] text-neutral-400 sm:text-xs">
-                <span>
-                  ASSETS INDEXED: {assetsLoaded} / {totalAssets}
+            /* 2. Opening a project page: Centered waiting text, loading bar, and percent */
+            <div className="flex h-full w-full flex-col items-center justify-center p-6 text-center">
+              <div className="flex flex-col items-center gap-3.5 w-full max-w-xs">
+                {/* Waiting text */}
+                <span className="font-mono text-xs tracking-[0.25em] text-neutral-500 uppercase">
+                  LOADING...
                 </span>
-                <span>STANDBY</span>
+
+                {/* Loading bar */}
+                <div className="h-[2px] w-full bg-black/10 dark:bg-white/10 overflow-hidden relative">
+                  <div
+                    className="h-full w-full bg-neutral-950 dark:bg-white origin-left"
+                    style={{ transform: `scaleX(${pageProgress / 100})` }}
+                  />
+                </div>
+
+                {/* Percentage */}
+                <span className="tabular-nums font-mono text-xs tracking-widest text-neutral-600 dark:text-neutral-400">
+                  {pageProgress}%
+                </span>
               </div>
             </div>
           )}
