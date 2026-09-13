@@ -155,16 +155,20 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
               </div>
             </div>
           ) : (
-            /* 2. Opening a project page: Centered waiting text, loading bar, and percent */
+            /* 2. Opening a project page: Centered fancy text, loading bar, and percent */
             <div className="flex h-full w-full flex-col items-center justify-center p-6 text-center">
-              <div className="flex flex-col items-center gap-3.5 w-full max-w-xs">
-                {/* Waiting text */}
-                <span className="font-mono text-xs tracking-[0.2em] text-neutral-500 uppercase">
-                  PLEASE WAIT A MOMENT...
-                </span>
+              <div className="flex flex-col items-center gap-5 w-full max-w-md">
+                <div className="flex flex-col items-center gap-1.5">
+                  <span className="font-mono text-[10px] tracking-[0.25em] text-neutral-400 dark:text-neutral-500 uppercase">
+                    [ PREPARING VIEW ]
+                  </span>
+                  <p className="font-serif text-[clamp(1.5rem,3.5vw,2.25rem)] leading-snug tracking-tight text-neutral-950 dark:text-neutral-100">
+                    Good design takes a <span className="italic-serif italic">moment</span>.
+                  </p>
+                </div>
 
                 {/* Loading bar */}
-                <div className="h-[2px] w-full bg-black/10 dark:bg-white/10 overflow-hidden relative">
+                <div className="h-[2px] w-full max-w-xs bg-black/10 dark:bg-white/10 overflow-hidden relative">
                   <div
                     className="h-full w-full bg-neutral-950 dark:bg-white origin-left"
                     style={{ transform: `scaleX(${pageProgress / 100})` }}
@@ -172,7 +176,7 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
                 </div>
 
                 {/* Percentage */}
-                <span className="tabular-nums font-mono text-xs tracking-widest text-neutral-600 dark:text-neutral-400">
+                <span className="tabular-nums font-mono text-xs tracking-widest text-neutral-500 dark:text-neutral-400">
                   {pageProgress}%
                 </span>
               </div>
