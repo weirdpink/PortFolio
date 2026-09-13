@@ -170,7 +170,6 @@ export const contactLinks: { label: string; value: string; href: string }[] = [
   { label: "Email", value: "worksarmaan@gmail.com", href: "mailto:worksarmaan@gmail.com" },
   { label: "GitHub", value: "@armaantxs", href: "https://github.com/armaantxs" },
   { label: "LinkedIn", value: "in/armaantxs", href: "https://www.linkedin.com/in/armaantxs" },
-  { label: "Figma", value: "@armaantxs", href: "https://www.figma.com/@armaantxs" },
   { label: "Instagram", value: "@armaantxs", href: "https://www.instagram.com/armaantxs" },
   { label: "X", value: "@armaantxs", href: "https://x.com/armaantxs" },
 ];

@@ -1,19 +1,12 @@
-import { useEffect } from "react";
 import { useParams, Link } from "react-router";
 import { ArrowLeft, ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { motion } from "motion/react";
 import { projects } from "../data";
 import { ImageWithFallback } from "../components/ImageWithFallback";
-import { Reveal } from "../components/reveal";
-import { EASE } from "../constants";
 
 export default function ProjectDetail() {
   const { id } = useParams();
   const project = projects.find((p) => p.id === id);
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-  }, [id]);
 
   if (!project) {
     return (
@@ -34,22 +27,22 @@ export default function ProjectDetail() {
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: EASE }}
-      className="mx-auto w-full px-6 py-28 md:px-12 md:py-40"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+      className="mx-auto w-full px-6 py-24 md:px-12 md:py-36"
     >
       {/* Top Navigation & Header */}
-      <Reveal className="mb-12 md:mb-16">
+      <div className="mb-12 md:mb-16">
         <Link
           to="/#work"
-          className="eyebrow group mb-10 inline-flex h-11 items-center justify-center gap-2 rounded-full border border-black/15 px-6 text-black transition-all hover:bg-black hover:text-white dark:border-white/20 dark:text-white dark:hover:bg-white dark:hover:text-black"
+          className="eyebrow group mb-8 inline-flex h-10 items-center justify-center gap-2 rounded-full border border-black/15 px-5 text-black transition-all hover:bg-black hover:text-white dark:border-white/20 dark:text-white dark:hover:bg-white dark:hover:text-black"
         >
-          <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-1" />
+          <ArrowLeft size={15} className="transition-transform duration-300 group-hover:-translate-x-1" />
           Back to Work
         </Link>
 
-        <div className="flex flex-wrap items-center gap-3 eyebrow text-neutral-500 mb-4 font-mono">
+        <div className="flex flex-wrap items-center gap-2.5 eyebrow text-neutral-500 mb-3 font-mono text-[11px]">
           <span>{project.discipline.toUpperCase()}</span>
           <span>•</span>
           <span>{project.category.toUpperCase()}</span>
@@ -57,12 +50,12 @@ export default function ProjectDetail() {
           <span>{project.year}</span>
         </div>
 
-        <h1 className="font-serif text-[clamp(3rem,8vw,6.5rem)] leading-[0.98] tracking-tight text-neutral-950 dark:text-neutral-100">
+        <h1 className="font-serif text-[clamp(2.75rem,7.5vw,6rem)] leading-[0.98] tracking-tight text-neutral-950 dark:text-neutral-100">
           {project.title}
         </h1>
 
         {/* Top Metadata Bar */}
-        <div className="mt-10 grid grid-cols-2 gap-6 border-y border-black/10 py-6 dark:border-white/10 sm:grid-cols-4 md:mt-12">
+        <div className="mt-8 grid grid-cols-2 gap-6 border-y border-black/10 py-5 dark:border-white/10 sm:grid-cols-4 md:mt-10">
           <div>
             <div className="eyebrow text-neutral-500 mb-1">Role</div>
             <div className="text-sm font-medium text-neutral-900 dark:text-neutral-100">{project.role}</div>
@@ -80,7 +73,7 @@ export default function ProjectDetail() {
             <div className="text-sm font-medium text-neutral-900 dark:text-neutral-100">{project.tools[0]} & More</div>
           </div>
         </div>
-      </Reveal>
+      </div>
 
       {/* ========================================================================= */}
       {/* DESIGN PROJECTS: EXACT FILL STYLE IMAGE PLACEMENT, DESCRIPTION BELOW     */}
@@ -88,7 +81,7 @@ export default function ProjectDetail() {
       {isDesign ? (
         <>
           {/* EXACT FILL STYLE IMAGE PLACEMENT (Full bleed filled box grid) */}
-          <div className="w-[calc(100%+3rem)] -ml-6 md:w-[calc(100%+6rem)] md:-ml-12 overflow-hidden border-y border-black/10 dark:border-white/10 bg-black/10 dark:bg-white/10 my-12 md:my-16">
+          <div className="w-[calc(100%+3rem)] -ml-6 md:w-[calc(100%+6rem)] md:-ml-12 overflow-hidden border-y border-black/10 dark:border-white/10 bg-black/10 dark:bg-white/10 my-10 md:my-14">
             {project.category === "Poster" && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px">
                 {project.gallery.map((img, i) => (
@@ -154,29 +147,29 @@ export default function ProjectDetail() {
           </div>
 
           {/* DESCRIPTION BELOW ALL THE IMAGES */}
-          <Reveal className="mx-auto max-w-3xl pt-8 pb-16">
+          <div className="mx-auto max-w-3xl pt-6 pb-12">
             <div className="eyebrow mb-3 text-neutral-500 font-mono">[ PHILOSOPHY & PROCESS ]</div>
-            <h2 className="font-serif text-3xl sm:text-4xl text-neutral-950 dark:text-neutral-100 leading-snug tracking-tight mb-6">
+            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-neutral-950 dark:text-neutral-100 leading-snug tracking-tight mb-5">
               {project.description}
             </h2>
-            <p className="text-[16px] leading-relaxed text-neutral-700 dark:text-neutral-300 mb-8">
+            <p className="text-[15px] sm:text-[16px] leading-relaxed text-neutral-700 dark:text-neutral-300 mb-8">
               {project.overview}
             </p>
 
-            <div className="border-t border-black/10 dark:border-white/10 pt-8 mt-10">
-              <div className="eyebrow mb-4 text-neutral-500 font-mono">CORE CAPABILITIES</div>
+            <div className="border-t border-black/10 dark:border-white/10 pt-6 mt-8">
+              <div className="eyebrow mb-3.5 text-neutral-500 font-mono">CORE CAPABILITIES</div>
               <div className="flex flex-wrap gap-2">
                 {project.tools.map((t) => (
                   <span
                     key={t}
-                    className="eyebrow border border-black/15 dark:border-white/20 px-3.5 py-1.5 text-xs text-neutral-800 dark:text-neutral-200"
+                    className="eyebrow border border-black/15 dark:border-white/20 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200"
                   >
                     {t}
                   </span>
                 ))}
               </div>
             </div>
-          </Reveal>
+          </div>
         </>
       ) : (
         /* ========================================================================= */
@@ -184,7 +177,7 @@ export default function ProjectDetail() {
         /* ========================================================================= */
         <>
           {/* Main Hero Showcase */}
-          <div className="w-[calc(100%+3rem)] -ml-6 md:w-[calc(100%+6rem)] md:-ml-12 overflow-hidden border-y border-black/10 dark:border-white/10 bg-neutral-950 aspect-[16/9] my-12 md:my-16">
+          <div className="w-[calc(100%+3rem)] -ml-6 md:w-[calc(100%+6rem)] md:-ml-12 overflow-hidden border-y border-black/10 dark:border-white/10 bg-neutral-950 aspect-[16/9] my-10 md:my-14">
             <ImageWithFallback
               src={project.cover}
               alt={project.title}
@@ -194,8 +187,8 @@ export default function ProjectDetail() {
             />
           </div>
 
-          <Reveal className="mx-auto max-w-3xl pt-8 pb-16">
-            <div className="flex items-center justify-between gap-4 mb-6">
+          <div className="mx-auto max-w-3xl pt-6 pb-12">
+            <div className="flex items-center justify-between gap-4 mb-5">
               <div className="eyebrow text-neutral-500 font-mono">[ ARCHITECTURE & OVERVIEW ]</div>
               {project.link && (
                 <a
@@ -210,22 +203,22 @@ export default function ProjectDetail() {
               )}
             </div>
 
-            <h2 className="font-serif text-3xl sm:text-4xl text-neutral-950 dark:text-neutral-100 leading-snug tracking-tight mb-6">
+            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-neutral-950 dark:text-neutral-100 leading-snug tracking-tight mb-5">
               {project.description}
             </h2>
 
-            <p className="text-[16px] leading-relaxed text-neutral-700 dark:text-neutral-300 mb-10">
+            <p className="text-[15px] sm:text-[16px] leading-relaxed text-neutral-700 dark:text-neutral-300 mb-8">
               {project.overview}
             </p>
 
             {/* Key Engineering Features */}
             {project.features && project.features.length > 0 && (
-              <div className="border-t border-black/10 dark:border-white/10 pt-8 mt-10">
-                <div className="eyebrow mb-5 text-neutral-500 font-mono">KEY SYSTEM HIGHLIGHTS</div>
-                <div className="space-y-3">
+              <div className="border-t border-black/10 dark:border-white/10 pt-6 mt-8">
+                <div className="eyebrow mb-4 text-neutral-500 font-mono">KEY SYSTEM HIGHLIGHTS</div>
+                <div className="space-y-2.5">
                   {project.features.map((feat, idx) => (
                     <div key={idx} className="flex items-start gap-3">
-                      <CheckCircle2 size={18} className="text-emerald-500 mt-0.5 shrink-0" />
+                      <CheckCircle2 size={17} className="text-emerald-500 mt-0.5 shrink-0" />
                       <span className="text-sm sm:text-[15px] text-neutral-800 dark:text-neutral-200 leading-relaxed">
                         {feat}
                       </span>
@@ -236,30 +229,30 @@ export default function ProjectDetail() {
             )}
 
             {/* Tech Stack */}
-            <div className="border-t border-black/10 dark:border-white/10 pt-8 mt-10">
-              <div className="eyebrow mb-4 text-neutral-500 font-mono">TECHNOLOGY STACK</div>
+            <div className="border-t border-black/10 dark:border-white/10 pt-6 mt-8">
+              <div className="eyebrow mb-3.5 text-neutral-500 font-mono">TECHNOLOGY STACK</div>
               <div className="flex flex-wrap gap-2">
                 {project.tools.map((t) => (
                   <span
                     key={t}
-                    className="eyebrow border border-black/15 dark:border-white/20 px-3.5 py-1.5 text-xs text-neutral-800 dark:text-neutral-200"
+                    className="eyebrow border border-black/15 dark:border-white/20 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200"
                   >
                     {t}
                   </span>
                 ))}
               </div>
             </div>
-          </Reveal>
+          </div>
         </>
       )}
 
       {/* Footer Navigation */}
-      <div className="border-t border-black/10 dark:border-white/10 pt-12 flex justify-between items-center max-w-3xl mx-auto">
+      <div className="border-t border-black/10 dark:border-white/10 pt-10 flex justify-between items-center max-w-3xl mx-auto">
         <Link
           to="/#work"
           className="eyebrow group inline-flex items-center gap-2 text-black dark:text-white transition-opacity hover:opacity-70"
         >
-          <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-1" />
+          <ArrowLeft size={15} className="transition-transform duration-300 group-hover:-translate-x-1" />
           Back to all work
         </Link>
         <span className="eyebrow text-neutral-400 font-mono">PORTFOLIO — 2026</span>
