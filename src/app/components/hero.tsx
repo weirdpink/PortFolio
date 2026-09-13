@@ -19,6 +19,10 @@ const fade = {
 };
 
 export function Hero() {
+  const isReturning =
+    typeof window !== "undefined" &&
+    sessionStorage.getItem("returningFromProject") === "true";
+
   return (
     <section
       id="top"
@@ -26,7 +30,7 @@ export function Hero() {
     >
       <motion.div
         variants={container}
-        initial="hidden"
+        initial={isReturning ? "show" : "hidden"}
         animate="show"
         className="flex flex-col items-center text-center max-w-6xl mx-auto"
       >

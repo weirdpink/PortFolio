@@ -15,14 +15,22 @@ export function Reveal({
   className?: string;
   as?: "div" | "section" | "span" | "li" | "article";
 }) {
+  const isReturning =
+    typeof window !== "undefined" &&
+    sessionStorage.getItem("returningFromProject") === "true";
+
   const MotionTag = motion[as] as typeof motion.div;
   return (
     <MotionTag
       className={className}
-      initial={{ opacity: 0, y }}
+      initial={isReturning ? { opacity: 1, y: 0 } : { opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.8, ease: EASE, delay }}
+      transition={{
+        duration: isReturning ? 0 : 0.8,
+        ease: EASE,
+        delay: isReturning ? 0 : delay,
+      }}
     >
       {children}
     </MotionTag>
@@ -54,12 +62,16 @@ export function StaggerGroup({
   className?: string;
   as?: "div" | "ul" | "section";
 }) {
+  const isReturning =
+    typeof window !== "undefined" &&
+    sessionStorage.getItem("returningFromProject") === "true";
+
   const MotionTag = motion[as] as typeof motion.div;
   return (
     <MotionTag
       className={className}
       variants={containerVariants}
-      initial="hidden"
+      initial={isReturning ? "show" : "hidden"}
       whileInView="show"
       viewport={{ once: true, margin: "-60px" }}
     >

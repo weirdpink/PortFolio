@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { Link } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
@@ -59,9 +60,9 @@ export function Nav() {
       }`}
     >
       <nav aria-label="Main navigation" className="relative mx-auto flex w-full items-center justify-between px-6 py-5 md:px-12">
-        <a href="/" className="eyebrow transition-opacity hover:opacity-70">
+        <Link to="/" className="eyebrow transition-opacity hover:opacity-70">
           ARMAAN VERMA
-        </a>
+        </Link>
 
         <div className="hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center gap-10 md:flex">
           {links.map((l) => (

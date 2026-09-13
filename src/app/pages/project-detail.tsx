@@ -1,4 +1,5 @@
-import { useParams, Link } from "react-router";
+import { useState } from "react";
+import { useParams, useNavigate } from "react-router";
 import { ArrowLeft, ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { motion } from "motion/react";
 import { projects } from "../data";
@@ -6,19 +7,32 @@ import { ImageWithFallback } from "../components/ImageWithFallback";
 
 export default function ProjectDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const [isExiting, setIsExiting] = useState(false);
   const project = projects.find((p) => p.id === id);
+
+  const handleBack = (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    if (isExiting) return;
+    setIsExiting(true);
+    sessionStorage.setItem("returningFromProject", "true");
+    setTimeout(() => {
+      navigate("/");
+    }, 140);
+  };
 
   if (!project) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center px-6 text-center">
         <h1 className="font-serif text-5xl md:text-7xl mb-6">Not Found</h1>
         <p className="mb-10 text-neutral-500">The project you are looking for does not exist.</p>
-        <Link
-          to="/"
-          className="eyebrow group inline-flex h-12 items-center justify-center rounded-full border border-black/15 px-8 text-black transition-all hover:bg-black hover:text-white dark:border-white/20 dark:text-white dark:hover:bg-white dark:hover:text-black"
+        <button
+          type="button"
+          onClick={handleBack}
+          className="eyebrow group inline-flex h-12 items-center justify-center rounded-full border border-black/15 px-8 text-black transition-all hover:bg-black hover:text-white dark:border-white/20 dark:text-white dark:hover:bg-white dark:hover:text-black cursor-pointer"
         >
           Return to Work
-        </Link>
+        </button>
       </div>
     );
   }
@@ -27,20 +41,21 @@ export default function ProjectDetail() {
 
   return (
     <motion.article
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.25, ease: "easeOut" }}
+      initial={{ opacity: 0, y: 10 }}
+      animate={isExiting ? { opacity: 0, y: -8 } : { opacity: 1, y: 0 }}
+      transition={{ duration: isExiting ? 0.14 : 0.22, ease: [0.22, 1, 0.36, 1] }}
       className="mx-auto w-full px-6 py-24 md:px-12 md:py-36"
     >
       {/* Top Navigation & Header */}
       <div className="mb-12 md:mb-16">
-        <Link
-          to="/"
-          className="eyebrow group mb-8 inline-flex h-10 items-center justify-center gap-2 rounded-full border border-black/15 px-5 text-black transition-all hover:bg-black hover:text-white dark:border-white/20 dark:text-white dark:hover:bg-white dark:hover:text-black"
+        <button
+          type="button"
+          onClick={handleBack}
+          className="eyebrow group mb-8 inline-flex h-10 items-center justify-center gap-2 rounded-full border border-black/15 px-5 text-black transition-all hover:bg-black hover:text-white dark:border-white/20 dark:text-white dark:hover:bg-white dark:hover:text-black cursor-pointer"
         >
           <ArrowLeft size={15} className="transition-transform duration-300 group-hover:-translate-x-1" />
           Back to Work
-        </Link>
+        </button>
 
         <div className="flex flex-wrap items-center gap-2.5 eyebrow text-neutral-500 mb-3 font-mono text-[11px]">
           <span>{project.discipline.toUpperCase()}</span>
@@ -248,13 +263,14 @@ export default function ProjectDetail() {
 
       {/* Footer Navigation */}
       <div className="border-t border-black/10 dark:border-white/10 pt-10 flex justify-between items-center max-w-3xl mx-auto">
-        <Link
-          to="/"
-          className="eyebrow group inline-flex items-center gap-2 text-black dark:text-white transition-opacity hover:opacity-70"
+        <button
+          type="button"
+          onClick={handleBack}
+          className="eyebrow group inline-flex items-center gap-2 text-black dark:text-white transition-opacity hover:opacity-70 cursor-pointer"
         >
           <ArrowLeft size={15} className="transition-transform duration-300 group-hover:-translate-x-1" />
           Back to all work
-        </Link>
+        </button>
         <span className="eyebrow text-neutral-400 font-mono">PORTFOLIO — 2026</span>
       </div>
     </motion.article>

@@ -39,6 +39,7 @@ function ScrollToTop() {
     } else if (pathname === "/") {
       // Returning from a project page: restore saved position so you stay where you were
       if (prevPathname.current.startsWith("/project/")) {
+        sessionStorage.setItem("returningFromProject", "true");
         const stored = sessionStorage.getItem("homeScrollPos");
         if (stored) {
           const pos = parseInt(stored, 10);
@@ -48,6 +49,9 @@ function ScrollToTop() {
             document.body.scrollTop = pos;
           }
         }
+        setTimeout(() => {
+          sessionStorage.removeItem("returningFromProject");
+        }, 350);
       } else {
         // Direct initial load or refresh: start at top
         window.scrollTo({ top: 0, left: 0, behavior: "instant" });

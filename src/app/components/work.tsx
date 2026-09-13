@@ -1,26 +1,18 @@
-import { motion, AnimatePresence } from "motion/react";
 import { Link } from "react-router";
 import { ArrowUpRight } from "lucide-react";
 import { ImageWithFallback } from "./ImageWithFallback";
 import { SectionMarker } from "./section-marker";
 import { Reveal } from "./reveal";
 import { projects, type Project } from "../data";
-import { EASE } from "../constants";
 
 function WorkCard({ project }: { project: Project }) {
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.4, ease: EASE }}
-      className="relative w-full overflow-hidden"
-    >
+    <div className="relative w-full overflow-hidden">
       <Link
         to={project.caseStudy}
         onClick={() => {
           sessionStorage.setItem("homeScrollPos", String(window.scrollY));
+          sessionStorage.setItem("returningFromProject", "true");
         }}
         aria-label={`View project ${project.title}`}
         className="group relative block aspect-square w-full overflow-hidden bg-neutral-950 select-none"
@@ -52,7 +44,7 @@ function WorkCard({ project }: { project: Project }) {
           </div>
         </div>
       </Link>
-    </motion.div>
+    </div>
   );
 }
 
@@ -78,11 +70,9 @@ export function Work() {
       {/* 6 Filled Box Cards Grid (Edge-to-edge perfect squares) */}
       <div className="w-full overflow-hidden border-y border-black/10 dark:border-white/10 bg-black/10 dark:bg-white/10">
         <div className="grid grid-cols-1 gap-px sm:grid-cols-2 lg:grid-cols-3">
-          <AnimatePresence mode="popLayout">
-            {projects.map((p) => (
-              <WorkCard key={p.id} project={p} />
-            ))}
-          </AnimatePresence>
+          {projects.map((p) => (
+            <WorkCard key={p.id} project={p} />
+          ))}
         </div>
       </div>
     </section>
