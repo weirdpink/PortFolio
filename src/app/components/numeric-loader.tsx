@@ -46,8 +46,8 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
       img.src = src;
     });
 
-    // Deliberate, smooth timer so images load completely without feeling rushed
-    const DURATION = 1200; // 1.2s fixed duration
+    // Snappy, balanced timer so it feels rapid without dragging
+    const DURATION = 850; // 0.85s duration
     const startTime = performance.now();
     let rafId: number;
 
@@ -62,10 +62,10 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
         rafId = requestAnimationFrame(tick);
       } else {
         setCount(100);
-        // Brief natural pause at 100 before smooth curtain lift
+        // Snappy pause before curtain lift
         setTimeout(() => {
           setLoading(false);
-        }, 120);
+        }, 70);
       }
     };
 
