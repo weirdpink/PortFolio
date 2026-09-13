@@ -1,5 +1,7 @@
 import { motion } from "motion/react";
+import { ArrowUpRight } from "lucide-react";
 import { EASE } from "../constants";
+import { resumeUrl } from "../data";
 
 const container = {
   hidden: {},
@@ -64,12 +66,16 @@ export function Hero() {
             GET IN TOUCH
           </a>
           <a
-            href="/resume.pdf"
+            href={resumeUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="group border-b border-black/20 pb-1 transition-colors hover:border-black hover:text-black dark:border-white/20 dark:hover:border-white dark:hover:text-white"
+            className="group inline-flex items-center gap-1 border-b border-black/20 pb-1 transition-colors hover:border-black hover:text-black dark:border-white/20 dark:hover:border-white dark:hover:text-white"
           >
-            RÉSUMÉ <span className="inline-block transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">&nearr;</span>
+            <span>RÉSUMÉ</span>
+            <ArrowUpRight
+              size={13}
+              className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            />
           </a>
         </motion.div>
       </motion.div>
