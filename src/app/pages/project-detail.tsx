@@ -85,15 +85,15 @@ export default function ProjectDetail() {
             {project.category === "Poster" && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px">
                 {project.gallery.map((img, i) => (
-                  <div key={i} className="group relative overflow-hidden bg-neutral-950 aspect-[3/4] w-full">
+                  <div key={i} className="group relative overflow-hidden bg-neutral-950 aspect-[2918/4096] w-full">
                     <ImageWithFallback
                       src={img}
                       alt={`${project.title} 0${i + 1}`}
-                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                      width={800}
-                      height={1067}
+                      className="h-full w-full object-contain transition-transform duration-700 ease-out group-hover:scale-105"
+                      width={2918}
+                      height={4096}
                     />
-                    <div className="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                       <span className="eyebrow text-[10px] text-white/90 font-mono tracking-widest">
                         POSTER // 0{i + 1}
                       </span>
