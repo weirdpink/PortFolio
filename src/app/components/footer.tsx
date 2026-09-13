@@ -1,0 +1,41 @@
+import { ArrowUp } from "lucide-react";
+
+export function Footer() {
+  const scrollTop = () => {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: prefersReduced ? "auto" : "smooth" });
+  };
+
+  return (
+    <footer className="bg-white dark:bg-neutral-950">
+      <div className="border-t border-black/10 dark:border-white/10">
+        <div className="mx-auto flex w-full flex-col gap-6 px-6 py-8 md:flex-row md:items-center md:justify-between md:px-12">
+          <div className="flex flex-col gap-1">
+            <span className="eyebrow">
+              &copy; {new Date().getFullYear()} Armaan — All rights reserved
+            </span>
+            <span className="text-[13px] text-neutral-500">
+              Designed &amp; built end to end.
+            </span>
+          </div>
+
+          <div className="flex items-center gap-8">
+            <button
+              type="button"
+              onClick={scrollTop}
+              className="group flex items-center gap-2 eyebrow transition-colors hover:text-black dark:hover:text-white"
+            >
+              Back to top
+              <span className="flex h-7 w-7 items-center justify-center rounded-full border border-black/15 transition-colors group-hover:bg-black group-hover:text-white dark:border-white/20 dark:group-hover:bg-white dark:group-hover:text-black">
+                <ArrowUp
+                  size={13}
+                  className="transition-transform duration-300 group-hover:-translate-y-0.5"
+                />
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
