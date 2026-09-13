@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Link } from "react-router";
 import { ArrowUpRight } from "lucide-react";
@@ -58,17 +57,10 @@ function WorkCard({ project }: { project: Project }) {
 }
 
 export function Work() {
-  const [filter, setFilter] = useState<"All" | "Design" | "Engineering">("All");
-
-  const filteredProjects = projects.filter((p) => {
-    if (filter === "All") return true;
-    return p.discipline === filter;
-  });
-
   return (
     <section id="work" className="w-full py-24 md:py-32">
       {/* Header Row */}
-      <div className="mx-auto w-full px-6 md:px-12 mb-12 flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
+      <div className="mx-auto w-full px-6 md:px-12 mb-12 flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
         <Reveal className="max-w-sm">
           <SectionMarker index="02" label="Work" />
           <p className="mt-6 text-[15px] leading-relaxed text-neutral-500">
@@ -76,46 +68,18 @@ export function Work() {
           </p>
         </Reveal>
 
-        <div className="flex flex-col items-start gap-8 md:items-end">
-          <Reveal as="span" delay={0.1}>
-            <h2 className="font-serif text-[clamp(3.5rem,9vw,7.5rem)] leading-none tracking-tight">
-              Work.
-            </h2>
-          </Reveal>
-
-          {/* Filter Pills */}
-          <Reveal as="div" delay={0.2} className="flex items-center gap-1 rounded-full border border-black/10 p-1.5 dark:border-white/10">
-            {(["All", "Design", "Engineering"] as const).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setFilter(tab)}
-                className={`relative rounded-full px-5 py-2 text-sm font-medium transition-colors ${
-                  filter === tab
-                    ? "text-white dark:text-black"
-                    : "text-neutral-500 hover:text-black dark:text-neutral-400 dark:hover:text-white"
-                }`}
-              >
-                {filter === tab && (
-                  <motion.div
-                    layoutId="work-tab"
-                    className="absolute inset-0 rounded-full bg-black dark:bg-white"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
-                )}
-                <span className="relative z-10">
-                  {tab} {tab === "All" ? "(6)" : "(3)"}
-                </span>
-              </button>
-            ))}
-          </Reveal>
-        </div>
+        <Reveal as="div" delay={0.1}>
+          <h2 className="font-serif text-[clamp(3.5rem,9vw,7.5rem)] leading-none tracking-tight">
+            Work.
+          </h2>
+        </Reveal>
       </div>
 
       {/* 6 Filled Box Cards Grid (Edge-to-edge perfect squares) */}
       <div className="w-full overflow-hidden border-y border-black/10 dark:border-white/10 bg-black/10 dark:bg-white/10">
         <div className="grid grid-cols-1 gap-px sm:grid-cols-2 lg:grid-cols-3">
           <AnimatePresence mode="popLayout">
-            {filteredProjects.map((p) => (
+            {projects.map((p) => (
               <WorkCard key={p.id} project={p} />
             ))}
           </AnimatePresence>
