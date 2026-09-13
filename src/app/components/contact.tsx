@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight, Github, Linkedin, Instagram, X, type LucideIcon } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Github, Linkedin, Figma, Instagram } from "lucide-react";
 import { SectionMarker } from "./section-marker";
 import { Reveal } from "./reveal";
 import { motion } from "motion/react";
@@ -17,11 +17,26 @@ const rowItem = {
   show: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: EASE } },
 };
 
-const IconMap: Record<string, LucideIcon> = {
+function XIcon({ size = 17, className = "" }: { size?: number | string; className?: string }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+    >
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  );
+}
+
+const IconMap: Record<string, React.ComponentType<{ size?: number | string; className?: string }>> = {
   GitHub: Github,
   LinkedIn: Linkedin,
+  Figma: Figma,
   Instagram: Instagram,
-  X: X,
+  X: XIcon,
 };
 
 export function Contact() {

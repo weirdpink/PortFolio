@@ -65,10 +65,11 @@ export function Hero() {
           </a>
           <a
             href="/resume.pdf"
-            download="Armaan_Verma_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group border-b border-black/20 pb-1 transition-colors hover:border-black hover:text-black dark:border-white/20 dark:hover:border-white dark:hover:text-white"
           >
-            RÉSUMÉ <span className="inline-block transition-transform duration-300 group-hover:translate-y-1">&darr;</span>
+            RÉSUMÉ <span className="inline-block transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">&nearr;</span>
           </a>
         </motion.div>
       </motion.div>

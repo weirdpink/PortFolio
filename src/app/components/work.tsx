@@ -8,14 +8,14 @@ import { Reveal } from "./reveal";
 import { projects, type Project } from "../data";
 import { EASE } from "../constants";
 
-function WorkCard({ project, index }: { project: Project; index: number }) {
+function WorkCard({ project }: { project: Project }) {
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.5, ease: EASE }}
+      transition={{ duration: 0.4, ease: EASE }}
       className="relative w-full overflow-hidden"
     >
       <Link
@@ -29,56 +29,24 @@ function WorkCard({ project, index }: { project: Project; index: number }) {
           alt={project.title}
           className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           width={800}
-          height={600}
+          height={800}
         />
 
-        {/* Gradient overlay for high legibility */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/25 p-5 sm:p-6 md:p-7 flex flex-col justify-between transition-colors duration-300 group-hover:from-black/95 group-hover:via-black/50">
-          {/* Top metadata */}
-          <div className="flex items-center justify-between gap-3">
-            <span className="eyebrow font-mono text-[11px] tracking-widest text-white/80">
-              [ 0{index + 1} ]
-            </span>
-            <span className="rounded-full bg-white/10 px-2.5 py-0.5 text-[10px] tracking-widest text-neutral-200 font-sans uppercase border border-white/15 backdrop-blur-md">
-              {project.discipline} • {project.category}
-            </span>
-          </div>
-
-          {/* Bottom title, excerpt, and arrow */}
-          <div className="transform transition-transform duration-300 ease-out group-hover:-translate-y-1">
-            <div className="flex items-end justify-between gap-4">
-              <div>
-                <h3 className="font-serif text-2xl sm:text-[28px] text-white leading-tight tracking-tight">
-                  {project.title}
-                </h3>
-                <p className="mt-2 line-clamp-1 text-xs sm:text-[13px] text-neutral-300 font-sans leading-relaxed">
-                  {project.description}
-                </p>
-              </div>
-
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-all duration-300 group-hover:border-white group-hover:bg-white group-hover:text-black group-hover:rotate-45">
-                <ArrowUpRight size={18} />
+        {/* Minimal gradient overlay with title and category only */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent p-6 sm:p-8 flex flex-col justify-end transition-colors duration-300 group-hover:from-black/90">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <span className="eyebrow block mb-2 text-[11px] tracking-[0.2em] text-neutral-300 uppercase font-sans">
+                {project.category}
               </span>
+              <h3 className="font-serif text-2xl sm:text-3xl lg:text-[32px] text-white leading-none tracking-tight">
+                {project.title}
+              </h3>
             </div>
 
-            {/* Tools badges */}
-            {project.tools.length > 0 && (
-              <div className="mt-3.5 flex flex-wrap gap-1.5 opacity-90 transition-opacity duration-300">
-                {project.tools.slice(0, 3).map((t) => (
-                  <span
-                    key={t}
-                    className="eyebrow rounded-sm border border-white/20 bg-black/30 px-2 py-0.5 text-[9px] text-neutral-300 backdrop-blur-sm"
-                  >
-                    {t}
-                  </span>
-                ))}
-                {project.tools.length > 3 && (
-                  <span className="eyebrow text-[9px] text-neutral-400 self-center pl-1">
-                    +{project.tools.length - 3}
-                  </span>
-                )}
-              </div>
-            )}
+            <span className="text-white/60 transition-all duration-300 group-hover:text-white group-hover:translate-x-1 group-hover:-translate-y-1">
+              <ArrowUpRight size={22} strokeWidth={1.5} />
+            </span>
           </div>
         </div>
       </Link>
@@ -144,8 +112,8 @@ export function Work() {
       <div className="w-full overflow-hidden border-y border-black/10 dark:border-white/10 bg-black/10 dark:bg-white/10">
         <div className="grid grid-cols-1 gap-px sm:grid-cols-2 lg:grid-cols-3">
           <AnimatePresence mode="popLayout">
-            {filteredProjects.map((p, i) => (
-              <WorkCard key={p.id} project={p} index={i} />
+            {filteredProjects.map((p) => (
+              <WorkCard key={p.id} project={p} />
             ))}
           </AnimatePresence>
         </div>

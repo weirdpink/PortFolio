@@ -1,16 +1,18 @@
 import { useEffect } from "react";
 import { useParams, Link } from "react-router";
 import { ArrowLeft, ArrowUpRight, CheckCircle2 } from "lucide-react";
+import { motion } from "motion/react";
 import { projects } from "../data";
 import { ImageWithFallback } from "../components/ImageWithFallback";
 import { Reveal } from "../components/reveal";
+import { EASE } from "../constants";
 
 export default function ProjectDetail() {
   const { id } = useParams();
   const project = projects.find((p) => p.id === id);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, [id]);
 
   if (!project) {
@@ -31,7 +33,12 @@ export default function ProjectDetail() {
   const isDesign = project.discipline === "Design";
 
   return (
-    <article className="mx-auto w-full px-6 py-28 md:px-12 md:py-40">
+    <motion.article
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: EASE }}
+      className="mx-auto w-full px-6 py-28 md:px-12 md:py-40"
+    >
       {/* Top Navigation & Header */}
       <Reveal className="mb-12 md:mb-16">
         <Link
@@ -257,7 +264,7 @@ export default function ProjectDetail() {
         </Link>
         <span className="eyebrow text-neutral-400 font-mono">PORTFOLIO — 2026</span>
       </div>
-    </article>
+    </motion.article>
   );
 }
 
