@@ -6,7 +6,7 @@ const ERROR_IMG_SRC =
 export function ImageWithFallback(props: React.ImgHTMLAttributes<HTMLImageElement>) {
   const [didError, setDidError] = useState(false)
 
-  const { src, alt, style, className, ...rest } = props
+  const { src, alt, style, className, loading = "eager", decoding = "auto", ...rest } = props
 
   if (didError) {
     return (
@@ -27,8 +27,8 @@ export function ImageWithFallback(props: React.ImgHTMLAttributes<HTMLImageElemen
       alt={alt}
       className={className}
       style={style}
-      loading="lazy"
-      decoding="async"
+      loading={loading}
+      decoding={decoding}
       {...rest}
       onError={() => setDidError(true)}
     />
