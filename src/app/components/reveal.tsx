@@ -1,6 +1,7 @@
 import { type ReactNode } from "react";
 import { motion, type Variants } from "motion/react";
 import { EASE } from "../constants";
+import { readSession } from "../browser";
 
 export function Reveal({
   children,
@@ -15,9 +16,7 @@ export function Reveal({
   className?: string;
   as?: "div" | "section" | "span" | "li" | "article";
 }) {
-  const isReturning =
-    typeof window !== "undefined" &&
-    sessionStorage.getItem("returningFromProject") === "true";
+  const isReturning = readSession("returningFromProject") === "true";
 
   const MotionTag = motion[as] as typeof motion.div;
   return (
@@ -62,9 +61,7 @@ export function StaggerGroup({
   className?: string;
   as?: "div" | "ul" | "section";
 }) {
-  const isReturning =
-    typeof window !== "undefined" &&
-    sessionStorage.getItem("returningFromProject") === "true";
+  const isReturning = readSession("returningFromProject") === "true";
 
   const MotionTag = motion[as] as typeof motion.div;
   return (

@@ -53,24 +53,13 @@ export function Nav() {
     };
   }, [open]);
 
-  const handleNavClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    setOpen(false);
-    const hash = href.split("#")[1];
-    if (hash) {
-      const el = document.getElementById(hash);
-      if (el) {
-        e.preventDefault();
-        el.scrollIntoView({ behavior: "smooth" });
-        el.focus({ preventScroll: true });
-      }
-    }
-  }, []);
+  const handleNavClick = useCallback(() => setOpen(false), []);
 
   return (
     <motion.header
       initial={{ y: -60, opacity: 0 }}
       animate={{
-        y: hidden ? -80 : 0,
+        y: hidden && !open ? -80 : 0,
         opacity: 1,
       }}
       transition={{ duration: 0.4, ease: EASE }}
@@ -80,7 +69,7 @@ export function Nav() {
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <nav aria-label="Main navigation" className="relative mx-auto flex w-full items-center justify-between px-6 py-4 md:px-12">
+      <nav aria-label="Main navigation" className="relative mx-auto flex w-full items-center justify-between px-6 py-3 md:px-12">
         <div className="flex items-center gap-3 sm:gap-4">
           <Link to="/" className="eyebrow hidden text-[10px] transition-opacity hover:opacity-70 sm:inline-block">
             PORTFOLIO — 2026
@@ -89,15 +78,15 @@ export function Nav() {
 
         <div className="hidden items-center gap-10 md:flex">
           {links.map((l) => (
-            <a
+            <Link
               key={l.href}
-              href={l.href}
-              onClick={(e) => handleNavClick(e, l.href)}
+              to={l.href}
+              onClick={handleNavClick}
               className="eyebrow group relative text-[10px] transition-colors hover:text-black"
             >
               {l.label}
               <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-current transition-transform duration-300 ease-out group-hover:scale-x-100" />
-            </a>
+            </Link>
           ))}
         </div>
 
@@ -106,7 +95,8 @@ export function Nav() {
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
-          className="relative flex h-10 w-10 items-center justify-center rounded-full border border-black/15 transition-colors hover:bg-black hover:text-white md:hidden"
+          aria-controls="mobile-navigation"
+          className="relative flex h-11 w-11 items-center justify-center rounded-full border border-black/15 transition-colors hover:bg-black hover:text-white md:hidden"
         >
           <AnimatePresence mode="wait" initial={false}>
             <motion.span
@@ -130,6 +120,7 @@ export function Nav() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.4, ease: EASE }}
+            id="mobile-navigation"
             className="overflow-hidden border-t border-black/10 md:hidden"
           >
             <motion.ul
@@ -147,14 +138,14 @@ export function Nav() {
                   }}
                   transition={{ duration: 0.4, ease: EASE }}
                 >
-                  <a
-                    href={l.href}
-                    onClick={(e) => handleNavClick(e, l.href)}
+                  <Link
+                    to={l.href}
+                    onClick={handleNavClick}
                     className="flex items-center justify-between border-b border-black/5 py-4 font-serif text-[28px] leading-none tracking-tight"
                   >
                     {l.label}
                     <span className="eyebrow">→</span>
-                  </a>
+                  </Link>
                 </motion.li>
               ))}
             </motion.ul>

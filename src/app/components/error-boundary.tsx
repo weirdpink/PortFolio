@@ -19,7 +19,9 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error("Uncaught error:", error, errorInfo);
+    if (import.meta.env.DEV) {
+      console.error("Uncaught error:", error, errorInfo);
+    }
   }
 
   public render() {
@@ -33,6 +35,7 @@ export class ErrorBoundary extends Component<Props, State> {
             An unexpected error occurred. Please try refreshing the page.
           </p>
           <button
+            type="button"
             onClick={() => window.location.reload()}
             className="group mt-10 inline-flex items-center gap-2 font-serif text-[1.25rem] text-neutral-950 transition-colors hover:text-neutral-500"
           >

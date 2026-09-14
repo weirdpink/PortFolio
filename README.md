@@ -49,12 +49,13 @@ Vite will print the local development URL, usually http://localhost:5173.
 | npm run build | Type-check and create a production build in dist/ |
 | npm run preview | Serve the production build locally |
 | npm run lint | Run TypeScript’s no-emit validation |
+| npm run check:assets | Verify every code-referenced static asset exists under public/ |
+| npm run check | Run type, asset, and production-build checks |
 
 Before opening a pull request:
 
 ~~~bash
-npm run lint
-npm run build
+npm run check
 ~~~
 
 ## Project structure
@@ -164,6 +165,8 @@ Create a production build with npm run build. The generated site is written to d
 
 The site can be deployed to static hosting such as Vercel, Netlify, Cloudflare Pages, or GitHub Pages. Configure the host to fall back to index.html for client-side routes such as /project/p-posters.
 
+`public/_headers` and `public/_redirects` provide browser security headers and an SPA fallback for Netlify and Cloudflare Pages. For other hosts, configure their equivalent headers and SPA rewrite rule before launch. Enable HSTS at the host only after the final domain is fully HTTPS.
+
 ## Troubleshooting
 
 ### Images are not loading
@@ -187,4 +190,3 @@ Also hard-refresh the browser if an old asset bundle is cached.
 ## License and attribution
 
 Project-specific attribution information is recorded in ATTRIBUTIONS.md. Update that file when adding third-party assets or adapting external work.
-

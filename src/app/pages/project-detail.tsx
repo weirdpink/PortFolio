@@ -1,22 +1,30 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import { ArrowLeft, ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { motion } from "motion/react";
 import { projects } from "../data";
 import { ImageWithFallback } from "../components/ImageWithFallback";
+import { writeSession } from "../browser";
 
 export default function ProjectDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [isExiting, setIsExiting] = useState(false);
+  const backTimer = useRef<number | undefined>();
   const project = projects.find((p) => p.id === id);
 
-  const handleBack = (e?: React.MouseEvent) => {
-    if (e) e.preventDefault();
+  useEffect(
+    () => () => {
+      if (backTimer.current) window.clearTimeout(backTimer.current);
+    },
+    [],
+  );
+
+  const handleBack = () => {
     if (isExiting) return;
     setIsExiting(true);
-    sessionStorage.setItem("returningFromProject", "true");
-    setTimeout(() => {
+    writeSession("returningFromProject", "true");
+    backTimer.current = window.setTimeout(() => {
       navigate("/");
     }, 140);
   };
@@ -29,7 +37,8 @@ export default function ProjectDetail() {
         <button
           type="button"
           onClick={handleBack}
-          className="eyebrow group inline-flex h-12 items-center justify-center rounded-full border border-black/15 px-8 text-black transition-all hover:bg-black hover:text-white cursor-pointer"
+          disabled={isExiting}
+          className="eyebrow group inline-flex h-12 items-center justify-center rounded-full border border-black/15 px-8 text-black transition-all hover:bg-black hover:text-white disabled:cursor-default disabled:opacity-50"
         >
           Return to Work
         </button>
@@ -51,7 +60,8 @@ export default function ProjectDetail() {
         <button
           type="button"
           onClick={handleBack}
-          className="eyebrow group mb-8 inline-flex h-10 items-center justify-center gap-2 rounded-full border border-black/15 px-5 text-black transition-all hover:bg-black hover:text-white cursor-pointer"
+          disabled={isExiting}
+          className="eyebrow group mb-8 inline-flex h-11 items-center justify-center gap-2 rounded-full border border-black/15 px-5 text-black transition-all hover:bg-black hover:text-white disabled:cursor-default disabled:opacity-50"
         >
           <ArrowLeft size={15} className="transition-transform duration-300 group-hover:-translate-x-1" />
           Back to Work
@@ -178,13 +188,25 @@ export default function ProjectDetail() {
         <>
           {/* Main Hero Showcase */}
           <div className="w-[calc(100%+3rem)] -ml-6 md:w-[calc(100%+6rem)] md:-ml-12 overflow-hidden border-y border-black/10 bg-neutral-950 aspect-[16/9] my-10 md:my-14">
-            <ImageWithFallback
-              src={project.cover}
-              alt={project.title}
-              className="h-full w-full object-cover"
-              width={1400}
-              height={788}
-            />
+            {project.cover ? (
+              <ImageWithFallback
+                src={project.cover}
+                alt={project.title}
+                className="h-full w-full object-cover"
+                width={1400}
+                height={788}
+              />
+            ) : (
+              <div
+                aria-hidden="true"
+                className="flex h-full w-full flex-col justify-between bg-neutral-900 p-6 text-white md:p-12"
+              >
+                <span className="eyebrow text-neutral-400">Project visual</span>
+                <span className="font-serif text-[clamp(2.5rem,7vw,7rem)] leading-none tracking-tight">
+                  Visual pending.
+                </span>
+              </div>
+            )}
           </div>
 
           <div className="mx-auto max-w-3xl pt-6 pb-12">
@@ -251,7 +273,8 @@ export default function ProjectDetail() {
         <button
           type="button"
           onClick={handleBack}
-          className="eyebrow group inline-flex items-center gap-2 text-black transition-opacity hover:opacity-70 cursor-pointer"
+          disabled={isExiting}
+          className="eyebrow group inline-flex items-center gap-2 text-black transition-opacity hover:opacity-70 disabled:cursor-default disabled:opacity-50"
         >
           <ArrowLeft size={15} className="transition-transform duration-300 group-hover:-translate-x-1" />
           Back to all work
@@ -261,4 +284,3 @@ export default function ProjectDetail() {
     </motion.article>
   );
 }
-

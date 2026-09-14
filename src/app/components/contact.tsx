@@ -25,6 +25,8 @@ function XIcon({ size = 17, className = "" }: { size?: number | string; classNam
       viewBox="0 0 24 24"
       fill="currentColor"
       className={className}
+      aria-hidden="true"
+      focusable="false"
     >
       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
     </svg>
@@ -41,7 +43,7 @@ const IconMap: Record<string, React.ComponentType<{ size?: number | string; clas
 
 export function Contact() {
   return (
-    <section id="contact" className="bg-white scroll-mt-20 md:scroll-mt-24">
+    <section id="contact" tabIndex={-1} className="bg-white scroll-mt-20 md:scroll-mt-24">
       <div className="mx-auto w-full px-6 pt-12 pb-6 md:px-12 md:pt-16 md:pb-8">
         <Reveal delay={0.05} y={40}>
           <h2 className="mt-10 md:mt-12 font-serif text-[clamp(4rem,12vw,11rem)] leading-[1.02] tracking-tight">

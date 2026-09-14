@@ -67,10 +67,10 @@ export function Skills() {
   const [technical, design, environment] = skillGroups;
 
   return (
-    <section id="skills" className="bg-white">
+    <section id="skills" tabIndex={-1} className="bg-white">
       <div className="mx-auto w-full px-6 py-24 md:px-12 md:py-32">
         <div className="mb-12">
-          <Reveal as="span" delay={0.1}>
+          <Reveal delay={0.1}>
             <h2 className="text-right font-serif text-[clamp(3.5rem,9vw,7.5rem)] leading-none tracking-tight">
               Skills.
             </h2>

@@ -9,11 +9,11 @@ const facts = [
 
 export function About() {
   return (
-    <section id="about" className="bg-white">
+    <section id="about" tabIndex={-1} className="bg-white">
       <div className="mx-auto w-full px-6 py-24 md:px-12 md:py-32">
         {/* Top row: marker + note left, big display right */}
         <div className="border-b border-black/10 pb-12 md:pb-16">
-          <Reveal as="span" delay={0.1}>
+          <Reveal delay={0.1}>
             <h2 className="text-right font-serif text-[clamp(3.5rem,9vw,7.5rem)] leading-none tracking-tight">
               About.
             </h2>

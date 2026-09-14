@@ -7,23 +7,37 @@ const barHeights = [40, 90, 55, 100, 60, 80, 45];
 
 export function MusicPlayer() {
   const [playing, setPlaying] = useState(false);
+  const [message, setMessage] = useState("");
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const pausedAt = useRef(0);
 
   useEffect(() => {
     const audio = new Audio(music.src);
-    audio.preload = "metadata";
+    audio.preload = "none";
     audioRef.current = audio;
 
     const onEnded = () => {
       setPlaying(false);
-      pausedAt.current = 0;
       audio.currentTime = 0;
+    };
+    const onPlay = () => {
+      setPlaying(true);
+      setMessage("Music playing");
+    };
+    const onPause = () => setPlaying(false);
+    const onError = () => {
+      setPlaying(false);
+      setMessage("Music could not be played");
     };
 
     audio.addEventListener("ended", onEnded);
+    audio.addEventListener("play", onPlay);
+    audio.addEventListener("pause", onPause);
+    audio.addEventListener("error", onError);
     return () => {
       audio.removeEventListener("ended", onEnded);
+      audio.removeEventListener("play", onPlay);
+      audio.removeEventListener("pause", onPause);
+      audio.removeEventListener("error", onError);
       audio.pause();
       audio.src = "";
       audio.load();
@@ -37,14 +51,13 @@ export function MusicPlayer() {
     if (audio.paused) {
       try {
         await audio.play();
-        setPlaying(true);
       } catch {
         setPlaying(false);
+        setMessage("Music playback was blocked by the browser");
       }
     } else {
-      pausedAt.current = audio.currentTime;
       audio.pause();
-      setPlaying(false);
+      setMessage("Music paused");
     }
   }, []);
 
@@ -61,7 +74,11 @@ export function MusicPlayer() {
             aria-hidden
           >
             {barHeights.map((h, i) => (
-              <span key={i} className="wave-bar" style={{ height: `${h}%` }} />
+              <span
+                key={i}
+                className={`wave-bar ${playing ? "wave-bar--active" : ""}`}
+                style={{ height: `${h}%` }}
+              />
             ))}
           </span>
           <span className="hidden text-[9px] font-medium uppercase tracking-[0.22em] text-neutral-500 sm:inline">
@@ -75,7 +92,8 @@ export function MusicPlayer() {
       <button
         type="button"
         onClick={toggle}
-        className={`px-2 py-2 transition-colors duration-300 hover:opacity-60 active:opacity-40 ${
+        aria-pressed={playing}
+        className={`min-h-11 px-2 py-2 transition-colors duration-300 hover:opacity-60 active:opacity-40 ${
           playing
             ? "text-black"
             : "text-neutral-500"
@@ -86,6 +104,9 @@ export function MusicPlayer() {
           {playing ? "Pause music" : "Play music"}
         </span>
       </button>
+      <span className="sr-only" aria-live="polite">
+        {message}
+      </span>
 
       <style>{`
         .wave-bar {
@@ -93,8 +114,8 @@ export function MusicPlayer() {
           border-radius: 1px;
           background: currentColor;
           transform-origin: bottom;
-          animation: css-wave 0.9s ease-in-out infinite;
         }
+        .wave-bar--active { animation: css-wave 0.9s ease-in-out infinite; }
         .wave-bar:nth-child(2n) {
           animation-delay: -0.35s;
           animation-duration: 0.8s;

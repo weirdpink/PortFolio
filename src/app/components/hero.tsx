@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from "motion/react";
 import { EASE } from "../constants";
+import { readSession } from "../browser";
 import { MusicPlayer } from "./music-player";
 
 const container = {
@@ -14,13 +15,12 @@ const line = {
 
 export function Hero() {
   const reduceMotion = useReducedMotion();
-  const isReturning =
-    typeof window !== "undefined" &&
-    sessionStorage.getItem("returningFromProject") === "true";
+  const isReturning = readSession("returningFromProject") === "true";
 
   return (
     <section
       id="top"
+      tabIndex={-1}
       className="relative mx-auto mt-10 flex min-h-[100dvh] w-full flex-col justify-center px-6 py-20 pb-28 md:mt-12 md:h-[100dvh] md:min-h-0 md:px-12 md:pb-32"
     >
       <motion.div
@@ -67,7 +67,7 @@ export function Hero() {
           src="/image.webp"
           alt="Black-and-white mountain landscape"
           width={2400}
-          height={1600}
+          height={1800}
           loading="eager"
           decoding="async"
           className="h-full w-full object-cover object-[50%_48%]"
