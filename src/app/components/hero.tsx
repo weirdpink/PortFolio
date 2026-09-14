@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { EASE } from "../constants";
 import { resumeUrl } from "../data";
+import { MusicPlayer } from "./music-player";
 
 const container = {
   hidden: {},
@@ -26,7 +27,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="mx-auto w-full px-6 min-h-screen flex flex-col justify-center py-20 md:px-12"
+      className="relative mx-auto w-full px-6 min-h-screen flex flex-col justify-center py-20 md:px-12"
     >
       <motion.div
         variants={container}
@@ -71,6 +72,8 @@ export function Hero() {
           </a>
         </motion.div>
       </motion.div>
+
+      <MusicPlayer />
     </section>
   );
 }

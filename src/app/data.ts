@@ -166,6 +166,11 @@ export const skillGroups: { title: string; items: string[] }[] = [
 
 export const resumeUrl = "/resume.pdf";
 
+export const music = {
+  title: "For the First Time",
+  src: "/For%20the%20First%20Time.mp3",
+};
+
 export const contactLinks: { label: string; value: string; href: string }[] = [
   { label: "Email", value: "worksarmaan@gmail.com", href: "mailto:worksarmaan@gmail.com" },
   { label: "GitHub", value: "@armaantxs", href: "https://github.com/armaantxs" },

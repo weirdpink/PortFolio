@@ -1,8 +1,8 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { Link } from "react-router";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { Menu, X } from "lucide-react";
-import { ThemeToggle } from "./theme-toggle";
+
 import { EASE } from "../constants";
 
 const links = [
@@ -13,14 +13,32 @@ const links = [
 ];
 
 export function Nav() {
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastScrollY = useRef(0);
+
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const prev = lastScrollY.current;
+    const diff = latest - prev;
+
+    setScrolled(latest > 24);
+    if (latest <= 80) {
+      setHidden(false);
+    } else if (diff > 8) {
+      setHidden(true);
+    } else if (diff < -8) {
+      setHidden(false);
+    }
+
+    lastScrollY.current = latest;
+  });
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    setScrolled(window.scrollY > 24);
+    lastScrollY.current = window.scrollY;
   }, []);
 
   useEffect(() => {
@@ -51,8 +69,11 @@ export function Nav() {
   return (
     <motion.header
       initial={{ y: -60, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.7, ease: EASE, delay: 0.15 }}
+      animate={{
+        y: hidden ? -80 : 0,
+        opacity: 1,
+      }}
+      transition={{ duration: 0.4, ease: EASE }}
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
         scrolled || open
           ? "border-b border-black/10 bg-white/85 backdrop-blur-md dark:border-white/10 dark:bg-neutral-950/85"
@@ -64,7 +85,6 @@ export function Nav() {
           <Link to="/" className="eyebrow transition-opacity hover:opacity-70 hidden sm:inline-block">
             PORTFOLIO — 2026
           </Link>
-          <ThemeToggle />
         </div>
 
         <div className="hidden items-center gap-10 md:flex">
