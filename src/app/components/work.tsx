@@ -26,8 +26,8 @@ function WorkCard({ project }: { project: Project }) {
           height={800}
         />
 
-        {/* Minimal gradient overlay with title and category only */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent p-6 sm:p-8 flex flex-col justify-end transition-colors duration-300 group-hover:from-black/90">
+        {/* Gradient overlay — hidden by default, revealed on hover */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent p-6 sm:p-8 flex flex-col justify-end opacity-0 transition-opacity duration-300 group-hover:opacity-100">
           <div className="flex items-end justify-between gap-4">
             <div>
               <span className="eyebrow block mb-2 text-[11px] tracking-[0.2em] text-neutral-300 uppercase font-sans">
