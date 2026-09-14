@@ -23,7 +23,7 @@ export function About() {
         {/* Large statement */}
         <Reveal
           as="span"
-          className="mt-10 block font-serif text-[clamp(1.9rem,5.5vw,4.25rem)] leading-[1.08] tracking-tight md:mt-14"
+          className="mt-10 block font-serif text-[clamp(2.5rem,7vw,5.5rem)] leading-[1.05] tracking-tight md:mt-14"
           y={40}
         >
           <span>
@@ -33,7 +33,7 @@ export function About() {
 
         {/* Supporting copy + facts */}
         <div className="mt-8 grid gap-12 md:mt-10 md:grid-cols-12 md:gap-14">
-          <Reveal className="max-w-xl md:col-span-7">
+          <Reveal className="max-w-none md:col-span-7">
             <div className="space-y-5 text-[18px] leading-relaxed text-neutral-700 md:text-[20px]">
               <p>
                 I&apos;m a second-year Computer Science student at Bennett

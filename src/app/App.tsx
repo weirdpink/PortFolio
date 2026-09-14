@@ -1,5 +1,6 @@
 import { useLayoutEffect, useEffect, useRef } from "react";
 import { Routes, Route, useLocation } from "react-router";
+import { LayoutGroup } from "motion/react";
 import { Cursor } from "./components/cursor";
 import { Nav } from "./components/nav";
 import { ErrorBoundary } from "./components/error-boundary";
@@ -96,20 +97,22 @@ export default function App() {
   const location = useLocation();
 
   return (
-    <div className="flex min-h-screen flex-col w-full bg-white text-neutral-950 transition-colors duration-300">
-      <NumericLoader pathname={location.pathname} />
-      <ScrollToTop />
-      <Cursor />
-      <Nav />
-      <div className="flex flex-1 flex-col" id="main-content">
-        <ErrorBoundary>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/project/:id" element={<ProjectDetail />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </ErrorBoundary>
+    <LayoutGroup id="portfolio-layout">
+      <div className="flex min-h-screen flex-col w-full bg-white text-neutral-950 transition-colors duration-300">
+        <NumericLoader pathname={location.pathname} />
+        <ScrollToTop />
+        <Cursor />
+        <Nav />
+        <div className="flex flex-1 flex-col" id="main-content">
+          <ErrorBoundary>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/project/:id" element={<ProjectDetail />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </ErrorBoundary>
+        </div>
       </div>
-    </div>
+    </LayoutGroup>
   );
 }

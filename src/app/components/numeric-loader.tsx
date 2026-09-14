@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { projects } from "../data";
 
 // Helper to collect images based on route
@@ -21,18 +21,33 @@ interface NumericLoaderProps {
 
 export function NumericLoader({ pathname }: NumericLoaderProps) {
   const [loading, setLoading] = useState(true);
-  const [count, setCount] = useState(0);
   const [isInitial, setIsInitial] = useState(true);
   const [pageProgress, setPageProgress] = useState(0);
+  const reduceMotion = useReducedMotion();
+  const initialTimer = useRef<number | null>(null);
 
   const isFirstMount = useRef(true);
   const prevPathname = useRef(pathname);
 
   useEffect(() => {
+    if (!loading) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      if (initialTimer.current !== null) {
+        window.clearTimeout(initialTimer.current);
+      }
+    };
+  }, [loading]);
+
+  useEffect(() => {
     if (isFirstMount.current) {
       isFirstMount.current = false;
       setIsInitial(true);
-      startInitialLoading(pathname);
+      startInitialLoading();
     } else if (prevPathname.current !== pathname) {
       prevPathname.current = pathname;
       // Only show loader when navigating into a project page, never when going back to home
@@ -45,43 +60,21 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
     }
   }, [pathname]);
 
-  // Initial app launch: Big bottom-left numeric loader counting to 100
-  const startInitialLoading = (currentPath: string) => {
+  // Initial app launch: preload the hero image before shrinking it into place.
+  const startInitialLoading = () => {
     setLoading(true);
-    setCount(0);
-
-    const images = getImagesForRoute(currentPath);
-    images.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-    });
-
-    const DURATION = 850; // 0.85s
-    const startTime = performance.now();
-    let rafId: number;
-
-    const tick = (now: number) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(1, elapsed / DURATION);
-      const nextCount = Math.min(100, Math.floor(progress * 100));
-
-      setCount(nextCount);
-
-      if (progress < 1) {
-        rafId = requestAnimationFrame(tick);
-      } else {
-        setCount(100);
-        setTimeout(() => {
-          setLoading(false);
-        }, 70);
-      }
+    const image = new Image();
+    const startedAt = performance.now();
+    const finish = () => {
+      const remaining = Math.max(0, 720 - (performance.now() - startedAt));
+      initialTimer.current = window.setTimeout(() => setLoading(false), remaining);
     };
 
-    rafId = requestAnimationFrame(tick);
-
-    return () => {
-      cancelAnimationFrame(rafId);
+    image.onload = () => {
+      image.decode?.().catch(() => {}).finally(finish);
     };
+    image.onerror = finish;
+    image.src = "/image.webp";
   };
 
   // Opening a project page: Continuous real-time progress across 1.1s
@@ -135,43 +128,59 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
 
   return (
     <AnimatePresence>
-      {loading && (
+      {loading && isInitial && (
         <motion.div
-          key={isInitial ? "initial-loader" : "page-loader"}
-          initial={{ opacity: 1, y: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={isInitial ? { y: "-100%" } : { opacity: 0 }}
+          key="initial-loader"
+          layoutId="hero-image"
+          initial={false}
+          className="fixed inset-0 z-[99999] overflow-hidden bg-neutral-950 select-none will-change-transform"
           transition={{
-            duration: isInitial ? 0.45 : 0.25,
-            ease: [0.76, 0, 0.24, 1],
+            layout: {
+              duration: reduceMotion ? 0 : 1.1,
+              ease: [0.16, 1, 0.3, 1],
+            },
           }}
+        >
+          <motion.img
+            src="/image.webp"
+            alt=""
+            width={2400}
+            height={1600}
+            loading="eager"
+            decoding="async"
+            initial={reduceMotion ? false : { scale: 1.04 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: reduceMotion ? 0 : 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="h-full w-full object-cover object-[50%_48%]"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-black/[0.03]" />
+        </motion.div>
+      )}
+
+      {loading && !isInitial && (
+        /* Opening a project page: centered text and loading bar */
+        <motion.div
+          key="page-loader"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
           className="fixed inset-0 z-[99999] select-none bg-white text-neutral-950"
         >
-          {isInitial ? (
-            /* 1. Initial app start: Big bottom-left numeric loader */
-            <div className="flex h-full w-full flex-col justify-end p-8 sm:p-14 md:p-20">
-              <div className="font-mono text-[clamp(6rem,20vw,15rem)] font-medium leading-none tracking-tighter tabular-nums text-neutral-950">
-                {count < 10 ? `0${count}` : count}
-              </div>
-            </div>
-          ) : (
-            /* 2. Opening a project page: Centered fancy text and loading bar */
-            <div className="flex h-full w-full flex-col items-center justify-center p-6 text-center">
-              <div className="flex flex-col items-center gap-5 w-full max-w-md">
-                <p className="font-serif text-[clamp(1.5rem,3.5vw,2.25rem)] leading-snug tracking-tight text-neutral-950">
-                  Good design takes a <span className="italic-serif italic">moment</span>.
-                </p>
+          <div className="flex h-full w-full flex-col items-center justify-center p-6 text-center">
+            <div className="flex w-full max-w-md flex-col items-center gap-5">
+              <p className="font-serif text-[clamp(1.5rem,3.5vw,2.25rem)] leading-snug tracking-tight text-neutral-950">
+                Good design takes a <span className="italic-serif italic">moment</span>.
+              </p>
 
-                {/* Loading bar */}
-                <div className="h-[2px] w-full max-w-xs bg-black/10 overflow-hidden relative">
-                  <div
-                    className="h-full w-full bg-neutral-950 origin-left"
-                    style={{ transform: `scaleX(${pageProgress / 100})` }}
-                  />
-                </div>
+              <div className="relative h-[2px] w-full max-w-xs overflow-hidden bg-black/10">
+                <div
+                  className="h-full w-full origin-left bg-neutral-950"
+                  style={{ transform: `scaleX(${pageProgress / 100})` }}
+                />
               </div>
             </div>
-          )}
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

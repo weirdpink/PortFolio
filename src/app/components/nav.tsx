@@ -80,9 +80,9 @@ export function Nav() {
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <nav aria-label="Main navigation" className="relative mx-auto flex w-full items-center justify-between px-6 py-5 md:px-12">
+      <nav aria-label="Main navigation" className="relative mx-auto flex w-full items-center justify-between px-6 py-4 md:px-12">
         <div className="flex items-center gap-3 sm:gap-4">
-          <Link to="/" className="eyebrow transition-opacity hover:opacity-70 hidden sm:inline-block">
+          <Link to="/" className="eyebrow hidden text-[10px] transition-opacity hover:opacity-70 sm:inline-block">
             PORTFOLIO — 2026
           </Link>
         </div>
@@ -93,7 +93,7 @@ export function Nav() {
               key={l.href}
               href={l.href}
               onClick={(e) => handleNavClick(e, l.href)}
-              className="eyebrow group relative transition-colors hover:text-black"
+              className="eyebrow group relative text-[10px] transition-colors hover:text-black"
             >
               {l.label}
               <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-current transition-transform duration-300 ease-out group-hover:scale-x-100" />
@@ -106,7 +106,7 @@ export function Nav() {
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
-          className="relative flex h-11 w-11 items-center justify-center rounded-full border border-black/15 transition-colors hover:bg-black hover:text-white md:hidden"
+          className="relative flex h-10 w-10 items-center justify-center rounded-full border border-black/15 transition-colors hover:bg-black hover:text-white md:hidden"
         >
           <AnimatePresence mode="wait" initial={false}>
             <motion.span

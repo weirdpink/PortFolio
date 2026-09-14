@@ -53,7 +53,7 @@ export function MusicPlayer() {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: EASE, delay: 0.4 }}
-      className="absolute bottom-6 right-6 z-30 flex flex-col items-end gap-1.5 text-right md:bottom-8 md:right-12"
+      className="absolute right-6 top-12 z-30 flex flex-col items-end gap-1.5 text-right md:right-6 md:top-16"
     >
         <span className="flex items-center gap-2.5">
           <span
