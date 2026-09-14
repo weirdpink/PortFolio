@@ -2,7 +2,6 @@ import { useLayoutEffect, useEffect, useRef } from "react";
 import { Routes, Route, useLocation } from "react-router";
 import { Cursor } from "./components/cursor";
 import { Nav } from "./components/nav";
-import { Footer } from "./components/footer";
 import { ErrorBoundary } from "./components/error-boundary";
 import { NumericLoader } from "./components/numeric-loader";
 import Home from "./pages/home";
@@ -111,7 +110,6 @@ export default function App() {
           </Routes>
         </ErrorBoundary>
       </div>
-      <Footer />
     </div>
   );
 }

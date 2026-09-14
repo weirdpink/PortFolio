@@ -49,13 +49,12 @@ export function MusicPlayer() {
   }, []);
 
   return (
-    <>
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: EASE, delay: 0.4 }}
-        className="absolute bottom-6 left-6 z-20 flex flex-col gap-1.5 md:bottom-8 md:left-12"
-      >
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: EASE, delay: 0.4 }}
+      className="absolute bottom-6 right-6 z-30 flex flex-col items-end gap-1.5 text-right md:bottom-8 md:right-12"
+    >
         <span className="flex items-center gap-2.5">
           <span
             className="flex h-2 items-end gap-[2px] text-neutral-500"
@@ -72,15 +71,11 @@ export function MusicPlayer() {
         <span className="italic-serif w-max text-lg leading-none text-black">
           {music.title}
         </span>
-      </motion.div>
 
-      <motion.button
+      <button
         type="button"
         onClick={toggle}
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: EASE, delay: 0.4 }}
-        className={`absolute bottom-6 right-6 z-20 px-2 py-2 transition-colors duration-300 hover:opacity-60 active:opacity-40 md:bottom-8 md:right-12 ${
+        className={`px-2 py-2 transition-colors duration-300 hover:opacity-60 active:opacity-40 ${
           playing
             ? "text-black"
             : "text-neutral-500"
@@ -90,7 +85,7 @@ export function MusicPlayer() {
         <span className="whitespace-nowrap text-[11px] font-medium uppercase tracking-[0.14em]">
           {playing ? "Pause music" : "Play music"}
         </span>
-      </motion.button>
+      </button>
 
       <style>{`
         .wave-bar {
@@ -117,6 +112,6 @@ export function MusicPlayer() {
           50% { transform: scaleY(1); }
         }
       `}</style>
-    </>
+    </motion.div>
   );
 }

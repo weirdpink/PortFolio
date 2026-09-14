@@ -1,8 +1,9 @@
-import { ArrowRight, Github, Linkedin, Instagram, Mail } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Github, Linkedin, Instagram, Mail } from "lucide-react";
 import { Reveal } from "./reveal";
 import { motion } from "motion/react";
-import { contactLinks } from "../data";
+import { contactLinks, resumeUrl } from "../data";
 import { EASE } from "../constants";
+import { Footer } from "./footer";
 
 const email = contactLinks.find((c) => c.label === "Email");
 
@@ -41,11 +42,11 @@ const IconMap: Record<string, React.ComponentType<{ size?: number | string; clas
 export function Contact() {
   return (
     <section id="contact" className="bg-white scroll-mt-20 md:scroll-mt-24">
-      <div className="mx-auto w-full px-6 pt-12 pb-24 md:px-12 md:pt-16 md:pb-32">
+      <div className="mx-auto w-full px-6 pt-12 pb-6 md:px-12 md:pt-16 md:pb-8">
         <Reveal delay={0.05} y={40}>
           <h2 className="mt-10 md:mt-12 font-serif text-[clamp(4rem,12vw,11rem)] leading-[1.02] tracking-tight">
             <a href={email?.href || "mailto:worksarmaan@gmail.com"} aria-label="Send an email to Armaan" className="inline-block">
-              <span className="contact-underline inline-block">
+              <span className="inline-block">
                 Let&apos;s make
               </span>{" "}
               <span className="italic-serif text-neutral-500">something</span>
@@ -64,9 +65,9 @@ export function Contact() {
           </h2>
         </Reveal>
 
-        <div className="mt-12 flex flex-col md:mt-16">
+        <div className="mt-12 flex flex-col gap-10 md:mt-16 md:flex-row md:items-start md:justify-between">
           <motion.ul
-            className="flex flex-wrap justify-start gap-4 pb-12 md:pb-16"
+            className="flex flex-wrap justify-start gap-4"
             variants={rowContainer}
             initial="hidden"
             whileInView="show"
@@ -89,8 +90,26 @@ export function Contact() {
               );
             })}
           </motion.ul>
+
+          <Reveal delay={0.15} y={24}>
+            <a
+              href={resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-5 border border-black/20 px-6 py-4 font-serif text-[clamp(1.5rem,2.5vw,2.25rem)] leading-none tracking-tight transition-colors hover:border-black hover:bg-black hover:text-white"
+            >
+              Check out my résumé
+              <ArrowUpRight
+                size="0.8em"
+                strokeWidth={1.5}
+                className="transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+              />
+            </a>
+          </Reveal>
         </div>
       </div>
+
+      <Footer />
     </section>
   );
 }

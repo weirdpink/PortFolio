@@ -98,63 +98,48 @@ export default function ProjectDetail() {
           {/* EXACT FILL STYLE IMAGE PLACEMENT (Full bleed filled box grid) */}
           <div className="w-[calc(100%+3rem)] -ml-6 md:w-[calc(100%+6rem)] md:-ml-12 overflow-hidden border-y border-black/10 bg-black/10 my-10 md:my-14">
             {project.category === "Poster" && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {project.gallery.map((img, i) => (
                   <div key={i} className="group relative overflow-hidden bg-neutral-950 aspect-[2918/4096] w-full">
                     <ImageWithFallback
                       src={img}
                       alt={`${project.title} 0${i + 1}`}
-                      className="h-full w-full object-contain transition-transform duration-700 ease-out group-hover:scale-105"
+                      className="h-full w-full object-contain"
                       width={2918}
                       height={4096}
                     />
-                    <div className="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                      <span className="eyebrow text-[10px] text-white/90 font-mono tracking-widest">
-                        POSTER // 0{i + 1}
-                      </span>
-                    </div>
                   </div>
                 ))}
               </div>
             )}
 
             {project.category === "Logo" && (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-px">
+              <div className="grid grid-cols-2 md:grid-cols-3">
                 {project.gallery.map((img, i) => (
-                  <div key={i} className="group relative overflow-hidden bg-neutral-950 aspect-square w-full p-8 sm:p-14 flex items-center justify-center transition-colors duration-300 hover:bg-neutral-900">
+                  <div key={i} className="group relative overflow-hidden bg-neutral-950 aspect-square w-full p-8 sm:p-14 flex items-center justify-center">
                     <ImageWithFallback
                       src={img}
                       alt={`${project.title} mark 0${i + 1}`}
-                      className="max-h-full max-w-full object-contain transition-transform duration-500 ease-out group-hover:scale-110"
+                      className="max-h-full max-w-full object-contain"
                       width={400}
                       height={400}
                     />
-                    <div className="absolute top-4 left-4">
-                      <span className="eyebrow text-[10px] text-white/50 font-mono tracking-widest">
-                        0{i + 1}
-                      </span>
-                    </div>
                   </div>
                 ))}
               </div>
             )}
 
             {project.category === "Brand Identity" && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-px">
+              <div className="grid grid-cols-1 sm:grid-cols-2">
                 {project.gallery.map((img, i) => (
                   <div key={i} className="group relative overflow-hidden bg-neutral-950 aspect-[4/3] w-full">
                     <ImageWithFallback
                       src={img}
                       alt={`${project.title} asset 0${i + 1}`}
-                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      className="h-full w-full object-cover"
                       width={1000}
                       height={750}
                     />
-                    <div className="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <span className="eyebrow text-[10px] text-white/90 font-mono tracking-widest">
-                        SYSTEM COLLATERAL // 0{i + 1}
-                      </span>
-                    </div>
                   </div>
                 ))}
               </div>

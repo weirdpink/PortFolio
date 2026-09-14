@@ -151,7 +151,7 @@ export const skillGroups: { title: string; items: string[] }[] = [
     items: ["Adobe Photoshop", "Adobe Illustrator", "Affinity"],
   },
   {
-    title: "Environment & Productivity",
+    title: "Productivity",
     items: [
       "VS Code",
       "Zed",

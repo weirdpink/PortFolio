@@ -12,20 +12,12 @@ export function About() {
     <section id="about" className="bg-white">
       <div className="mx-auto w-full px-6 py-24 md:px-12 md:py-32">
         {/* Top row: marker + note left, big display right */}
-        <div className="flex flex-col gap-12 border-b border-black/10 pb-12 md:flex-row md:items-start md:justify-between md:pb-16">
+        <div className="border-b border-black/10 pb-12 md:pb-16">
           <Reveal as="span" delay={0.1}>
-            <span className="inline-block font-mono text-[clamp(3.5rem,9vw,7.5rem)] font-medium leading-none tracking-tighter tabular-nums text-neutral-950">
-              01
-            </span>
+            <h2 className="text-right font-serif text-[clamp(3.5rem,9vw,7.5rem)] leading-none tracking-tight">
+              About.
+            </h2>
           </Reveal>
-
-          <div className="flex items-center gap-6">
-            <Reveal as="span" delay={0.1}>
-              <h2 className="font-serif text-[clamp(3.5rem,9vw,7.5rem)] leading-none tracking-tight">
-                About.
-              </h2>
-            </Reveal>
-          </div>
         </div>
 
         {/* Large statement */}
@@ -42,7 +34,7 @@ export function About() {
         {/* Supporting copy + facts */}
         <div className="mt-8 grid gap-12 md:mt-10 md:grid-cols-12 md:gap-14">
           <Reveal className="max-w-xl md:col-span-7">
-            <div className="space-y-5 text-[16px] leading-relaxed text-neutral-700">
+            <div className="space-y-5 text-[18px] leading-relaxed text-neutral-700 md:text-[20px]">
               <p>
                 I&apos;m a second-year Computer Science student at Bennett
                 University, specialising in cybersecurity. Code shapes

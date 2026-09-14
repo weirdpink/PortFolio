@@ -26,7 +26,7 @@ function SkillRow({
 }) {
   return (
     <Reveal delay={delay}>
-      <div className="grid grid-cols-1 gap-6 border-t border-black/10 py-10 md:grid-cols-12 md:items-baseline md:gap-8 md:py-14">
+      <div className="grid grid-cols-1 gap-6 border-t border-black/10 py-10 md:grid-cols-12 md:items-baseline md:gap-2 md:py-14">
         <div className="md:col-span-3">
           <div className="eyebrow flex items-center gap-3">
             <span>{index}</span>
@@ -69,20 +69,12 @@ export function Skills() {
   return (
     <section id="skills" className="bg-white">
       <div className="mx-auto w-full px-6 py-24 md:px-12 md:py-32">
-        <div className="mb-12 flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
+        <div className="mb-12">
           <Reveal as="span" delay={0.1}>
-            <span className="inline-block font-mono text-[clamp(3.5rem,9vw,7.5rem)] font-medium leading-none tracking-tighter tabular-nums text-neutral-950">
-              03
-            </span>
+            <h2 className="text-right font-serif text-[clamp(3.5rem,9vw,7.5rem)] leading-none tracking-tight">
+              Skills.
+            </h2>
           </Reveal>
-
-          <div className="flex items-center gap-6">
-            <Reveal as="span" delay={0.1}>
-              <h2 className="font-serif text-[clamp(3.5rem,9vw,7.5rem)] leading-none tracking-tight">
-                Skills.
-              </h2>
-            </Reveal>
-          </div>
         </div>
 
         <div className="mt-8">

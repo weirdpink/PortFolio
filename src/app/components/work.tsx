@@ -51,15 +51,9 @@ export function Work() {
   return (
     <section id="work" className="w-full py-24 md:py-32">
       {/* Header Row */}
-      <div className="mx-auto w-full px-6 md:px-12 mb-12 flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
-        <Reveal as="span" delay={0.1}>
-          <span className="inline-block font-mono text-[clamp(3.5rem,9vw,7.5rem)] font-medium leading-none tracking-tighter tabular-nums text-neutral-950">
-            02
-          </span>
-        </Reveal>
-
+      <div className="mx-auto w-full px-6 md:px-12 mb-12">
         <Reveal as="div" delay={0.1}>
-          <h2 className="font-serif text-[clamp(3.5rem,9vw,7.5rem)] leading-none tracking-tight">
+          <h2 className="text-right font-serif text-[clamp(3.5rem,9vw,7.5rem)] leading-none tracking-tight">
             Work.
           </h2>
         </Reveal>
