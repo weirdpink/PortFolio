@@ -60,11 +60,14 @@ export function Nav() {
       }`}
     >
       <nav aria-label="Main navigation" className="relative mx-auto flex w-full items-center justify-between px-6 py-5 md:px-12">
-        <Link to="/" className="eyebrow transition-opacity hover:opacity-70">
-          ARMAAN VERMA
-        </Link>
+        <div className="flex items-center gap-3 sm:gap-4">
+          <Link to="/" className="eyebrow transition-opacity hover:opacity-70 hidden sm:inline-block">
+            PORTFOLIO — 2026
+          </Link>
+          <ThemeToggle />
+        </div>
 
-        <div className="hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center gap-10 md:flex">
+        <div className="hidden items-center gap-10 md:flex">
           {links.map((l) => (
             <a
               key={l.href}
@@ -78,32 +81,26 @@ export function Nav() {
           ))}
         </div>
 
-        <div className="flex items-center gap-3 sm:gap-4">
-          <span className="eyebrow hidden sm:inline-block">PORTFOLIO — 2026</span>
-
-          <ThemeToggle />
-
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            className="relative flex h-11 w-11 items-center justify-center rounded-full border border-black/15 transition-colors hover:bg-black hover:text-white md:hidden dark:border-white/20 dark:hover:bg-white dark:hover:text-black"
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.span
-                key={open ? "close" : "open"}
-                initial={{ opacity: 0, rotate: -45 }}
-                animate={{ opacity: 1, rotate: 0 }}
-                exit={{ opacity: 0, rotate: 45 }}
-                transition={{ duration: 0.2, ease: EASE }}
-                className="flex items-center justify-center"
-              >
-                {open ? <X size={16} /> : <Menu size={16} />}
-              </motion.span>
-            </AnimatePresence>
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          className="relative flex h-11 w-11 items-center justify-center rounded-full border border-black/15 transition-colors hover:bg-black hover:text-white md:hidden dark:border-white/20 dark:hover:bg-white dark:hover:text-black"
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={open ? "close" : "open"}
+              initial={{ opacity: 0, rotate: -45 }}
+              animate={{ opacity: 1, rotate: 0 }}
+              exit={{ opacity: 0, rotate: 45 }}
+              transition={{ duration: 0.2, ease: EASE }}
+              className="flex items-center justify-center"
+            >
+              {open ? <X size={16} /> : <Menu size={16} />}
+            </motion.span>
+          </AnimatePresence>
+        </button>
       </nav>
 
       <AnimatePresence>
