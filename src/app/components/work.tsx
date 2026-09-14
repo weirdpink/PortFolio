@@ -1,7 +1,6 @@
 import { Link } from "react-router";
 import { ArrowUpRight } from "lucide-react";
 import { ImageWithFallback } from "./ImageWithFallback";
-import { SectionMarker } from "./section-marker";
 import { Reveal } from "./reveal";
 import { projects, type Project } from "../data";
 
@@ -21,7 +20,7 @@ function WorkCard({ project }: { project: Project }) {
         <ImageWithFallback
           src={project.cover}
           alt={project.title}
-          className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          className="h-full w-full object-cover"
           width={800}
           height={800}
         />
@@ -53,11 +52,10 @@ export function Work() {
     <section id="work" className="w-full py-24 md:py-32">
       {/* Header Row */}
       <div className="mx-auto w-full px-6 md:px-12 mb-12 flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
-        <Reveal className="max-w-sm">
-          <SectionMarker index="02" label="Work" />
-          <p className="mt-6 text-[15px] leading-relaxed text-neutral-500">
-            A curated showcase of 6 projects spanning editorial design systems and full-stack software engineering. Click any card to view the complete case study.
-          </p>
+        <Reveal as="span" delay={0.1}>
+          <span className="inline-block font-mono text-[clamp(3.5rem,9vw,7.5rem)] font-medium leading-none tracking-tighter tabular-nums text-neutral-950">
+            02
+          </span>
         </Reveal>
 
         <Reveal as="div" delay={0.1}>
@@ -68,8 +66,8 @@ export function Work() {
       </div>
 
       {/* 6 Filled Box Cards Grid (Edge-to-edge perfect squares) */}
-      <div className="w-full overflow-hidden border-y border-black/10 dark:border-white/10 bg-black/10 dark:bg-white/10">
-        <div className="grid grid-cols-1 gap-px sm:grid-cols-2 lg:grid-cols-3">
+      <div className="w-full overflow-hidden border-y border-black/10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((p) => (
             <WorkCard key={p.id} project={p} />
           ))}

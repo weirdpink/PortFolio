@@ -1,5 +1,4 @@
 import { motion } from "motion/react";
-import { SectionMarker } from "./section-marker";
 import { Reveal } from "./reveal";
 import { skillGroups } from "../data";
 import { EASE } from "../constants";
@@ -27,11 +26,11 @@ function SkillRow({
 }) {
   return (
     <Reveal delay={delay}>
-      <div className="grid grid-cols-1 gap-6 border-t border-black/10 py-10 dark:border-white/10 md:grid-cols-12 md:items-baseline md:gap-8 md:py-14">
+      <div className="grid grid-cols-1 gap-6 border-t border-black/10 py-10 md:grid-cols-12 md:items-baseline md:gap-8 md:py-14">
         <div className="md:col-span-3">
           <div className="eyebrow flex items-center gap-3">
             <span>{index}</span>
-            <span className="h-px w-6 bg-black/20 dark:bg-white/25" />
+            <span className="h-px w-6 bg-black/20" />
             <span>{title}</span>
           </div>
         </div>
@@ -47,12 +46,12 @@ function SkillRow({
             <motion.span key={item} variants={rowItem} className="inline-flex items-baseline">
               <span
                 data-cursor="hover"
-                className="text-[clamp(1.6rem,3.5vw,2.75rem)] font-serif tracking-tight text-neutral-950 transition-colors duration-300 hover:text-neutral-400 dark:text-neutral-100 dark:hover:text-neutral-500"
+                className="text-[clamp(1.6rem,3.5vw,2.75rem)] font-serif tracking-tight text-neutral-950 transition-colors duration-300 hover:text-neutral-400"
               >
                 {item}
               </span>
               {i < items.length - 1 && (
-                <span className="ml-3 select-none text-[clamp(1rem,2vw,1.5rem)] text-neutral-300 dark:text-neutral-700">
+                <span className="ml-3 select-none text-[clamp(1rem,2vw,1.5rem)] text-neutral-300">
                   /
                 </span>
               )}
@@ -68,15 +67,13 @@ export function Skills() {
   const [technical, design, environment] = skillGroups;
 
   return (
-    <section id="skills" className="bg-white dark:bg-neutral-950">
+    <section id="skills" className="bg-white">
       <div className="mx-auto w-full px-6 py-24 md:px-12 md:py-32">
         <div className="mb-12 flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
-          <Reveal className="max-w-sm">
-            <SectionMarker index="03" label="Skills" />
-            <p className="mt-6 text-[15px] leading-relaxed text-neutral-500">
-              Languages, creative tools, and environments I use daily to write code and craft interfaces.
-              Each one earns its place through real-world use.
-            </p>
+          <Reveal as="span" delay={0.1}>
+            <span className="inline-block font-mono text-[clamp(3.5rem,9vw,7.5rem)] font-medium leading-none tracking-tighter tabular-nums text-neutral-950">
+              03
+            </span>
           </Reveal>
 
           <div className="flex items-center gap-6">

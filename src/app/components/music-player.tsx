@@ -58,18 +58,18 @@ export function MusicPlayer() {
       >
         <span className="flex items-center gap-2.5">
           <span
-            className="flex h-2 items-end gap-[2px] text-neutral-500 dark:text-neutral-400"
+            className="flex h-2 items-end gap-[2px] text-neutral-500"
             aria-hidden
           >
             {barHeights.map((h, i) => (
               <span key={i} className="wave-bar" style={{ height: `${h}%` }} />
             ))}
           </span>
-          <span className="hidden text-[9px] font-medium uppercase tracking-[0.22em] text-neutral-500 dark:text-neutral-400 sm:inline">
+          <span className="hidden text-[9px] font-medium uppercase tracking-[0.22em] text-neutral-500 sm:inline">
             Now playing
           </span>
         </span>
-        <span className="italic-serif w-max text-lg leading-none text-black dark:text-white">
+        <span className="italic-serif w-max text-lg leading-none text-black">
           {music.title}
         </span>
       </motion.div>
@@ -82,13 +82,13 @@ export function MusicPlayer() {
         transition={{ duration: 0.8, ease: EASE, delay: 0.4 }}
         className={`absolute bottom-6 right-6 z-20 px-2 py-2 transition-colors duration-300 hover:opacity-60 active:opacity-40 md:bottom-8 md:right-12 ${
           playing
-            ? "text-black dark:text-white"
-            : "text-neutral-500 dark:text-neutral-400"
+            ? "text-black"
+            : "text-neutral-500"
         }`}
         aria-label={playing ? `Pause ${music.title}` : `Play ${music.title}`}
       >
         <span className="whitespace-nowrap text-[11px] font-medium uppercase tracking-[0.14em]">
-          {playing ? "Pause" : "Play"}
+          {playing ? "Pause music" : "Play music"}
         </span>
       </motion.button>
 

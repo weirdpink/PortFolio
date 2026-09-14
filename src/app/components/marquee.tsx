@@ -28,9 +28,9 @@ export function Marquee() {
           will-change: transform;
         }
       `}</style>
-      <div className="flex overflow-hidden whitespace-nowrap border-y border-black/10 py-4 dark:border-white/10" aria-hidden>
+      <div className="flex overflow-hidden whitespace-nowrap border-y border-black/10 py-4" aria-hidden>
         <div
-          className={`flex shrink-0 items-center font-sans text-[clamp(1.2rem,2.5vw,2rem)] tracking-tight text-black dark:text-white ${shouldAnimate ? "animate-css-marquee" : ""}`}
+          className={`flex shrink-0 items-center font-sans text-[clamp(1.2rem,2.5vw,2rem)] tracking-tight text-black ${shouldAnimate ? "animate-css-marquee" : ""}`}
         >
           <span className="pr-4 flex items-center">{text}</span>
           <span className="pr-4 flex items-center">{text}</span>

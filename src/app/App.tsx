@@ -97,7 +97,7 @@ export default function App() {
   const location = useLocation();
 
   return (
-    <div className="flex min-h-screen flex-col w-full bg-white text-neutral-950 transition-colors duration-300 dark:bg-neutral-950 dark:text-neutral-100">
+    <div className="flex min-h-screen flex-col w-full bg-white text-neutral-950 transition-colors duration-300">
       <NumericLoader pathname={location.pathname} />
       <ScrollToTop />
       <Cursor />

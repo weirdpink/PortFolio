@@ -1,5 +1,4 @@
 import { ArrowRight, Github, Linkedin, Instagram, Mail } from "lucide-react";
-import { SectionMarker } from "./section-marker";
 import { Reveal } from "./reveal";
 import { motion } from "motion/react";
 import { contactLinks } from "../data";
@@ -41,12 +40,8 @@ const IconMap: Record<string, React.ComponentType<{ size?: number | string; clas
 
 export function Contact() {
   return (
-    <section id="contact" className="bg-white dark:bg-neutral-950 scroll-mt-20 md:scroll-mt-24">
+    <section id="contact" className="bg-white scroll-mt-20 md:scroll-mt-24">
       <div className="mx-auto w-full px-6 pt-12 pb-24 md:px-12 md:pt-16 md:pb-32">
-        <Reveal className="flex flex-col justify-between gap-6 md:flex-row md:items-start">
-          <SectionMarker index="04" label="Contact" />
-        </Reveal>
-
         <Reveal delay={0.05} y={40}>
           <h2 className="mt-10 md:mt-12 font-serif text-[clamp(4rem,12vw,11rem)] leading-[1.02] tracking-tight">
             <a href={email?.href || "mailto:worksarmaan@gmail.com"} aria-label="Send an email to Armaan" className="inline-block">
@@ -86,7 +81,7 @@ export function Contact() {
                     href={c.href}
                     aria-label={c.label}
                     {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    className="flex h-14 w-14 items-center justify-center rounded-full border border-black/15 text-black transition-all hover:bg-black hover:text-white dark:border-white/20 dark:text-white dark:hover:bg-white dark:hover:text-black"
+                    className="flex h-14 w-14 items-center justify-center rounded-full border border-black/15 text-black transition-all hover:bg-black hover:text-white"
                   >
                     {Icon && <Icon size={20} />}
                   </a>

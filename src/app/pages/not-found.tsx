@@ -18,7 +18,7 @@ export default function NotFound() {
         <div className="mt-12">
           <Link
             to="/"
-            className="eyebrow group inline-flex h-12 items-center justify-center rounded-full border border-black/15 px-8 text-black transition-all hover:bg-black hover:text-white dark:border-white/20 dark:text-white dark:hover:bg-white dark:hover:text-black"
+            className="eyebrow group inline-flex h-12 items-center justify-center rounded-full border border-black/15 px-8 text-black transition-all hover:bg-black hover:text-white"
           >
             Return to Homepage
           </Link>

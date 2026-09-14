@@ -50,11 +50,11 @@ export function Hero() {
 
         <motion.div
           variants={fade}
-          className="mt-16 flex flex-wrap items-center justify-center gap-8 md:gap-12 font-sans text-[10px] md:text-xs tracking-[0.15em] text-neutral-500 dark:text-neutral-400 uppercase"
+          className="mt-16 flex flex-wrap items-center justify-center gap-8 md:gap-12 font-sans text-[10px] md:text-xs tracking-[0.15em] text-neutral-500 uppercase"
         >
           <a
             href="#contact"
-            className="group border-b border-black/20 pb-1 transition-colors hover:border-black hover:text-black dark:border-white/20 dark:hover:border-white dark:hover:text-white"
+            className="group border-b border-black/20 pb-1 transition-colors hover:border-black hover:text-black"
           >
             GET IN TOUCH
           </a>
@@ -62,7 +62,7 @@ export function Hero() {
             href={resumeUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-1 border-b border-black/20 pb-1 transition-colors hover:border-black hover:text-black dark:border-white/20 dark:hover:border-white dark:hover:text-white"
+            className="group inline-flex items-center gap-1 border-b border-black/20 pb-1 transition-colors hover:border-black hover:text-black"
           >
             <span>RÉSUMÉ</span>
             <ArrowUpRight

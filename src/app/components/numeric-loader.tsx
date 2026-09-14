@@ -145,12 +145,12 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
             duration: isInitial ? 0.45 : 0.25,
             ease: [0.76, 0, 0.24, 1],
           }}
-          className="fixed inset-0 z-[99999] select-none bg-white text-neutral-950 dark:bg-neutral-950 dark:text-white"
+          className="fixed inset-0 z-[99999] select-none bg-white text-neutral-950"
         >
           {isInitial ? (
             /* 1. Initial app start: Big bottom-left numeric loader */
             <div className="flex h-full w-full flex-col justify-end p-8 sm:p-14 md:p-20">
-              <div className="font-mono text-[clamp(6rem,20vw,15rem)] font-medium leading-none tracking-tighter tabular-nums text-neutral-950 dark:text-white">
+              <div className="font-mono text-[clamp(6rem,20vw,15rem)] font-medium leading-none tracking-tighter tabular-nums text-neutral-950">
                 {count < 10 ? `0${count}` : count}
               </div>
             </div>
@@ -158,14 +158,14 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
             /* 2. Opening a project page: Centered fancy text and loading bar */
             <div className="flex h-full w-full flex-col items-center justify-center p-6 text-center">
               <div className="flex flex-col items-center gap-5 w-full max-w-md">
-                <p className="font-serif text-[clamp(1.5rem,3.5vw,2.25rem)] leading-snug tracking-tight text-neutral-950 dark:text-neutral-100">
+                <p className="font-serif text-[clamp(1.5rem,3.5vw,2.25rem)] leading-snug tracking-tight text-neutral-950">
                   Good design takes a <span className="italic-serif italic">moment</span>.
                 </p>
 
                 {/* Loading bar */}
-                <div className="h-[2px] w-full max-w-xs bg-black/10 dark:bg-white/10 overflow-hidden relative">
+                <div className="h-[2px] w-full max-w-xs bg-black/10 overflow-hidden relative">
                   <div
-                    className="h-full w-full bg-neutral-950 dark:bg-white origin-left"
+                    className="h-full w-full bg-neutral-950 origin-left"
                     style={{ transform: `scaleX(${pageProgress / 100})` }}
                   />
                 </div>

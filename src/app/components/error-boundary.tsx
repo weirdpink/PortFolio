@@ -34,7 +34,7 @@ export class ErrorBoundary extends Component<Props, State> {
           </p>
           <button
             onClick={() => window.location.reload()}
-            className="group mt-10 inline-flex items-center gap-2 font-serif text-[1.25rem] text-neutral-950 transition-colors hover:text-neutral-500 dark:text-neutral-100 dark:hover:text-neutral-400"
+            className="group mt-10 inline-flex items-center gap-2 font-serif text-[1.25rem] text-neutral-950 transition-colors hover:text-neutral-500"
           >
             Reload Page
           </button>

@@ -76,7 +76,7 @@ export function Nav() {
       transition={{ duration: 0.4, ease: EASE }}
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
         scrolled || open
-          ? "border-b border-black/10 bg-white/85 backdrop-blur-md dark:border-white/10 dark:bg-neutral-950/85"
+          ? "border-b border-black/10 bg-white/85 backdrop-blur-md"
           : "border-b border-transparent bg-transparent"
       }`}
     >
@@ -93,7 +93,7 @@ export function Nav() {
               key={l.href}
               href={l.href}
               onClick={(e) => handleNavClick(e, l.href)}
-              className="eyebrow group relative transition-colors hover:text-black dark:hover:text-white"
+              className="eyebrow group relative transition-colors hover:text-black"
             >
               {l.label}
               <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-current transition-transform duration-300 ease-out group-hover:scale-x-100" />
@@ -106,7 +106,7 @@ export function Nav() {
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
-          className="relative flex h-11 w-11 items-center justify-center rounded-full border border-black/15 transition-colors hover:bg-black hover:text-white md:hidden dark:border-white/20 dark:hover:bg-white dark:hover:text-black"
+          className="relative flex h-11 w-11 items-center justify-center rounded-full border border-black/15 transition-colors hover:bg-black hover:text-white md:hidden"
         >
           <AnimatePresence mode="wait" initial={false}>
             <motion.span
@@ -130,7 +130,7 @@ export function Nav() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.4, ease: EASE }}
-            className="overflow-hidden border-t border-black/10 md:hidden dark:border-white/10"
+            className="overflow-hidden border-t border-black/10 md:hidden"
           >
             <motion.ul
               className="flex flex-col px-6 py-4"
@@ -150,7 +150,7 @@ export function Nav() {
                   <a
                     href={l.href}
                     onClick={(e) => handleNavClick(e, l.href)}
-                    className="flex items-center justify-between border-b border-black/5 py-4 font-serif text-[28px] leading-none tracking-tight dark:border-white/5"
+                    className="flex items-center justify-between border-b border-black/5 py-4 font-serif text-[28px] leading-none tracking-tight"
                   >
                     {l.label}
                     <span className="eyebrow">→</span>
