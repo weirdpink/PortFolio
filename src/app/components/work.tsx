@@ -55,7 +55,7 @@ export function Work() {
 
       {/* 6 Filled Box Cards Grid (Edge-to-edge perfect squares) */}
       <div className="w-full overflow-hidden border-y border-black/10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-px sm:bg-black/10 lg:grid-cols-3">
           {projects.map((p) => (
             <WorkCard key={p.id} project={p} />
           ))}
