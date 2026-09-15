@@ -98,7 +98,7 @@ export default function ProjectDetail() {
           {/* EXACT FILL STYLE IMAGE PLACEMENT (Full bleed filled box grid) */}
           <div className="w-[calc(100%+3rem)] -ml-6 md:w-[calc(100%+6rem)] md:-ml-12 overflow-hidden border-y border-black/10 bg-black/10 my-10 md:my-14">
             {project.category === "Poster" && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-2">
                 {project.gallery.map((img, i) => (
                   <div key={i} className="group relative overflow-hidden bg-neutral-950 aspect-[2918/4096] w-full">
                     <ImageWithFallback
@@ -114,7 +114,7 @@ export default function ProjectDetail() {
             )}
 
             {project.category === "Logo" && (
-              <div className="grid grid-cols-2 md:grid-cols-3">
+              <div className="grid grid-cols-2">
                 {project.gallery.map((img, i) => (
                   <div key={i} className="group relative overflow-hidden bg-neutral-950 aspect-square w-full p-8 sm:p-14 flex items-center justify-center">
                     <ImageWithFallback

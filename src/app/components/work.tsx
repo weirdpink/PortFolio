@@ -6,7 +6,7 @@ import { writeSession } from "../browser";
 
 function WorkCard({ project }: { project: Project }) {
   return (
-    <div className="relative aspect-square w-full overflow-hidden border-t border-black/10 first:border-t-0 sm:border-t-0 sm:border-r sm:last:border-r-0 sm:border-b sm:border-b-black/10 sm:first:border-b-black/10">
+    <div className="relative aspect-square w-full overflow-hidden border-t border-black/10 first:border-t-0 sm:border-t-0 sm:border-b sm:border-b-black/10 sm:first:border-b-black/10">
       <Link
         to={project.caseStudy}
         onClick={() => {
