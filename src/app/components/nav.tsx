@@ -65,7 +65,7 @@ export function Nav() {
       transition={{ duration: 0.4, ease: EASE }}
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
         scrolled || open
-          ? "border-b border-black/10 bg-white/85 backdrop-blur-md"
+          ? "border-b border-black/10 bg-white"
           : "border-b border-transparent bg-transparent"
       }`}
     >
