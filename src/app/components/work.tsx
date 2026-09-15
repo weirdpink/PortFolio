@@ -6,7 +6,7 @@ import { writeSession } from "../browser";
 
 function WorkCard({ project }: { project: Project }) {
   return (
-    <div className="relative aspect-square w-full overflow-hidden border-t border-black/10 first:border-t-0 sm:border-t-0 sm:border-b sm:border-b-black/10 sm:first:border-b-black/10">
+    <div className="relative aspect-square w-full overflow-hidden border-t border-[#2a2a2a] first:border-t-0 sm:border-t-0 sm:border-b sm:border-b-[#2a2a2a] sm:first:border-b-[#2a2a2a]">
       <Link
         to={project.caseStudy}
         onClick={() => {
@@ -54,8 +54,8 @@ export function Work() {
       </div>
 
       {/* 6 Filled Box Cards Grid (Edge-to-edge perfect squares) */}
-      <div className="w-full overflow-hidden border-y border-black/10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-px sm:bg-black/10 lg:grid-cols-3">
+      <div className="w-full overflow-hidden border-y border-[#2a2a2a]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:[&>*:nth-child(odd)]:border-r sm:[&>*:nth-child(odd)]:border-r-[#2a2a2a] lg:[&>*:nth-child(3n+1)]:border-r lg:[&>*:nth-child(3n+2)]:border-r lg:[&>*:nth-child(3n+3)]:border-r-0">
           {projects.map((p) => (
             <WorkCard key={p.id} project={p} />
           ))}
