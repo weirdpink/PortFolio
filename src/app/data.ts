@@ -142,25 +142,40 @@ export const projects: Project[] = [
   },
 ];
 
-export const skillGroups: { title: string; items: string[] }[] = [
+export type SkillItem = {
+  label: string;
+  href: string;
+};
+
+export const skillGroups: { title: string; items: SkillItem[] }[] = [
   {
     title: "Technical",
-    items: ["Python", "Java", "C++", "HTML", "CSS"],
+    items: [
+      { label: "Python", href: "https://www.python.org/" },
+      { label: "Java", href: "https://www.java.com/" },
+      { label: "C++", href: "https://cplusplus.com/" },
+      { label: "HTML", href: "https://developer.mozilla.org/en-US/docs/Web/HTML" },
+      { label: "CSS", href: "https://developer.mozilla.org/en-US/docs/Web/CSS" },
+    ],
   },
   {
     title: "Design",
-    items: ["Adobe Photoshop", "Adobe Illustrator", "Affinity"],
+    items: [
+      { label: "Adobe Photoshop", href: "https://www.adobe.com/products/photoshop.html" },
+      { label: "Adobe Illustrator", href: "https://www.adobe.com/products/illustrator.html" },
+      { label: "Affinity", href: "https://affinity.serif.com/en-us/" },
+    ],
   },
   {
     title: "Productivity",
     items: [
-      "VS Code",
-      "Zed",
-      "Warp",
-      "Notion",
-      "Claude Code",
-      "Opencode",
-      "Antigravity",
+      { label: "VS Code", href: "https://code.visualstudio.com/" },
+      { label: "Zed", href: "https://zed.dev/" },
+      { label: "Warp", href: "https://warp.dev/" },
+      { label: "Notion", href: "https://www.notion.so/" },
+      { label: "Claude Code", href: "https://docs.anthropic.com/en/docs/claude-code/overview" },
+      { label: "Opencode", href: "https://opencode.ai/" },
+      { label: "Antigravity", href: "https://antigravity.app/" },
     ],
   },
 ];

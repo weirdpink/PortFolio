@@ -4,7 +4,7 @@ const facts = [
   { k: "Study", v: "B.Tech, Computer Science — Bennett University" },
   { k: "Focus", v: "Cybersecurity" },
   { k: "Year", v: "Second Year" },
-  { k: "Interests", v: "Entrepreneurship, Editorial Design, Freelance Work" },
+  { k: "Interests", v: "Freelance Design, Freelance Developer, Entrepreneurship" },
 ];
 
 export function About() {
@@ -42,10 +42,10 @@ export function About() {
                 all. Neither discipline is secondary to the other.
               </p>
               <p>
-                I&apos;m interested in entrepreneurship, and I&apos;m working
-                toward building products of my own while working as a freelance
-                developer and designer. I&apos;d rather make fewer things and
-                make them clearly.
+                I&apos;m interested in entrepreneurship, and I&apos;m building toward
+                launching products of my own while working as a freelance
+                designer and freelance developer. I&apos;d rather make fewer things
+                and make them clearly.
               </p>
             </div>
           </Reveal>

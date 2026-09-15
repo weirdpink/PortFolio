@@ -21,7 +21,7 @@ function SkillRow({
 }: {
   index: string;
   title: string;
-  items: string[];
+  items: { label: string; href: string }[];
   delay?: number;
 }) {
   return (
@@ -43,19 +43,26 @@ function SkillRow({
           viewport={{ once: true, margin: "-40px" }}
         >
           {items.map((item, i) => (
-            <motion.span key={item} variants={rowItem} className="inline-flex items-baseline">
+            <motion.a
+              key={item.label}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              variants={rowItem}
+              className="inline-flex items-baseline"
+            >
               <span
                 data-cursor="hover"
                 className="text-[clamp(1.6rem,3.5vw,2.75rem)] font-serif tracking-tight text-neutral-950 transition-colors duration-300 hover:text-neutral-400"
               >
-                {item}
+                {item.label}
               </span>
               {i < items.length - 1 && (
                 <span className="ml-3 select-none text-[clamp(1rem,2vw,1.5rem)] text-neutral-300">
                   /
                 </span>
               )}
-            </motion.span>
+            </motion.a>
           ))}
         </motion.div>
       </div>
