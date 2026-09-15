@@ -69,7 +69,7 @@ export function Nav() {
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <nav aria-label="Main navigation" className="relative mx-auto flex w-full items-center justify-between px-6 py-3 md:px-12">
+      <nav aria-label="Main navigation" className="relative mx-auto flex w-full items-center justify-between px-6 py-4 md:px-12">
         <div className="flex items-center gap-3 sm:gap-4">
           <Link to="/" className="eyebrow hidden text-[10px] transition-opacity hover:opacity-70 sm:inline-block">
             PORTFOLIO — 2026
