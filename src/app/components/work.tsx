@@ -1,13 +1,12 @@
 import { Link } from "react-router";
 import { ArrowUpRight } from "lucide-react";
-import { ImageWithFallback } from "./ImageWithFallback";
 import { Reveal } from "./reveal";
 import { projects, type Project } from "../data";
 import { writeSession } from "../browser";
 
 function WorkCard({ project }: { project: Project }) {
   return (
-    <div className="relative w-full overflow-hidden">
+    <div className="relative w-full overflow-hidden border-b border-black/10 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
       <Link
         to={project.caseStudy}
         onClick={() => {
@@ -15,50 +14,28 @@ function WorkCard({ project }: { project: Project }) {
           writeSession("returningFromProject", "true");
         }}
         aria-label={`View project ${project.title}`}
-        className="group relative block aspect-square w-full overflow-hidden bg-neutral-950 select-none"
+        className="group relative block min-h-[280px] w-full bg-neutral-950 p-6 text-white transition-colors duration-300 hover:bg-neutral-900 sm:p-8"
       >
-        {/* Full bleed image filling the box */}
-        {project.workCover ? (
-          <ImageWithFallback
-            src={project.workCover}
-            alt={project.title}
-            className="h-full w-full object-cover"
-            width={800}
-            height={800}
-          />
-        ) : (
-          <div
-            aria-hidden="true"
-            className="flex h-full w-full flex-col justify-between bg-neutral-900 p-6 text-white sm:p-8"
-          >
-            <span className="eyebrow text-neutral-400">{project.category}</span>
-            <div>
-              <span className="mb-2 block text-[11px] uppercase tracking-[0.2em] text-neutral-400">
-                Visual pending
-              </span>
-              <span className="block font-serif text-3xl leading-none tracking-tight sm:text-4xl">
-                {project.title}
-              </span>
-            </div>
-          </div>
-        )}
+        <div className="flex h-full min-h-[240px] flex-col justify-between">
+          <div className="flex items-start justify-between gap-4">
+            <span className="eyebrow text-[11px] uppercase tracking-[0.2em] text-neutral-400">
+              {project.category}
+            </span>
 
-        {/* Gradient overlay — hidden by default, revealed on hover */}
-        <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/85 via-black/25 to-transparent p-6 opacity-100 transition-opacity duration-300 sm:p-8 md:opacity-0 md:group-hover:opacity-100">
-          <div className="flex items-end justify-between gap-4">
-            <div>
-              <span className="eyebrow block mb-2 text-[11px] tracking-[0.2em] text-neutral-300 uppercase font-sans">
-                {project.category}
-              </span>
-              <h3 className="font-serif text-2xl sm:text-3xl lg:text-[32px] text-white leading-none tracking-tight">
-                {project.title}
-              </h3>
-            </div>
-
-            <span className="text-white/60 transition-all duration-300 group-hover:text-white group-hover:translate-x-1 group-hover:-translate-y-1">
-              <ArrowUpRight size={22} strokeWidth={1.5} />
+            <span className="text-neutral-500 transition-all duration-300 group-hover:text-white group-hover:translate-x-1 group-hover:-translate-y-1">
+              <ArrowUpRight size={20} strokeWidth={1.5} />
             </span>
           </div>
+
+          <div>
+            <h3 className="font-serif text-3xl leading-none tracking-tight text-white sm:text-4xl lg:text-[40px]">
+              {project.title}
+            </h3>
+          </div>
+
+          <span className="inline-flex w-fit items-center text-[11px] uppercase tracking-[0.2em] text-neutral-400">
+            View project
+          </span>
         </div>
       </Link>
     </div>
