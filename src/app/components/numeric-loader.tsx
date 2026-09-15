@@ -114,8 +114,15 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
         startInitialLoading();
       }
     } else if (prevPathname.current !== pathname) {
+      const returningHome = pathname === "/" && prevPathname.current.startsWith("/project/");
       prevPathname.current = pathname;
-      // Smooth loader on every route change, into a project and back home
+      if (returningHome) {
+        setLoading(false);
+        setPageProgress(0);
+        return;
+      }
+
+      // Smooth loader when opening a project page
       setIsInitial(false);
       startPageLoading(pathname);
     }

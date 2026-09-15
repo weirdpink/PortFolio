@@ -148,7 +148,6 @@ export default function ProjectDetail() {
 
           {/* DESCRIPTION BELOW ALL THE IMAGES */}
           <div className="mx-auto max-w-3xl pt-6 pb-12">
-            <div className="eyebrow mb-3 text-neutral-500 font-mono">[ PHILOSOPHY & PROCESS ]</div>
             <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-neutral-950 leading-snug tracking-tight mb-5">
               {project.description}
             </h2>
@@ -201,7 +200,6 @@ export default function ProjectDetail() {
 
           <div className="mx-auto max-w-3xl pt-6 pb-12">
             <div className="flex items-center justify-between gap-4 mb-5">
-              <div className="eyebrow text-neutral-500 font-mono">[ ARCHITECTURE & OVERVIEW ]</div>
               {project.link && (
                 <a
                   href={project.link}
