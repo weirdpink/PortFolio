@@ -26,8 +26,8 @@ export const projects: Project[] = [
     tools: ["Typography", "Layout Design", "Print", "Art Direction"],
     cover: "/posters/Gazelle.webp",
     gallery: [
-      "/posters/Gazelle.webp",
       "/posters/Hóng Yóu Jiǎozi.webp",
+      "/posters/Gazelle.webp",
       "/posters/Nothing Headphone (a).webp",
       "/posters/Mazesoba.webp",
       "/posters/Shox Ride 2.webp",
