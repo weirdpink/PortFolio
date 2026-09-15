@@ -99,17 +99,30 @@ export default function ProjectDetail() {
           <div className="w-[calc(100%+3rem)] -ml-6 md:w-[calc(100%+6rem)] md:-ml-12 overflow-hidden border-y border-black/10 bg-black/10 my-10 md:my-14">
             {project.category === "Poster" && (
               <div className="grid grid-cols-2">
-                {project.gallery.map((img, i) => (
-                  <div key={i} className="group relative overflow-hidden bg-neutral-950 aspect-[2918/4096] w-full">
-                    <ImageWithFallback
-                      src={img}
-                      alt={`${project.title} 0${i + 1}`}
-                      className="h-full w-full object-contain"
-                      width={2918}
-                      height={4096}
-                    />
-                  </div>
-                ))}
+                {project.gallery.map((img, i) => {
+                  const isLight = i % 2 === 0;
+
+                  return (
+                    <div
+                      key={i}
+                      className={[
+                        "group relative overflow-hidden aspect-[2918/4096] w-full border border-black/5",
+                        isLight ? "bg-[#f5f1ea]" : "bg-[#111111]",
+                      ].join(" ")}
+                    >
+                      <ImageWithFallback
+                        src={img}
+                        alt={`${project.title} poster 0${i + 1}`}
+                        className={[
+                          "h-full w-full object-cover",
+                          isLight ? "contrast-110" : "brightness-[1.06] contrast-125",
+                        ].join(" ")}
+                        width={1200}
+                        height={1700}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             )}
 
