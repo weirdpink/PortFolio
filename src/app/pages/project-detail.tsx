@@ -106,7 +106,7 @@ export default function ProjectDetail() {
                     <div
                       key={i}
                       className={[
-                        "group relative overflow-hidden aspect-[2918/4096] w-full ring-1 ring-inset ring-[#161616]/70",
+                        "group relative overflow-hidden aspect-[2918/4096] w-full ring-1 ring-inset ring-[#111111]/25",
                         isLight ? "bg-[#f5f1ea]" : "bg-[#111111]",
                       ].join(" ")}
                     >
