@@ -66,44 +66,40 @@ export function MusicPlayer() {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: EASE, delay: 0.4 }}
-      className="absolute right-6 top-12 z-30 flex flex-col items-end gap-1.5 text-right md:right-6 md:top-16"
+      className="absolute right-6 bottom-6 z-30 flex flex-col items-end gap-1.5 text-right md:right-12 md:bottom-8"
     >
-        <span className="flex items-center gap-2.5">
-          <span
-            className="flex h-2 items-end gap-[2px] text-neutral-500"
-            aria-hidden
-          >
-            {barHeights.map((h, i) => (
-              <span
-                key={i}
-                className={`wave-bar ${playing ? "wave-bar--active" : ""}`}
-                style={{ height: `${h}%` }}
-              />
-            ))}
+        <div className="flex items-center gap-4">
+        <button
+          type="button"
+          onClick={toggle}
+          aria-pressed={playing}
+          className={`min-h-11 px-2 py-2 transition-colors duration-300 hover:opacity-60 active:opacity-40 ${
+            playing
+              ? "text-black"
+              : "text-neutral-500"
+          }`}
+          aria-label={playing ? `Pause ${music.title}` : `Play ${music.title}`}
+        >
+          <span className="whitespace-nowrap text-[11px] font-medium uppercase tracking-[0.14em]">
+            {playing ? "Pause" : "Play"}
           </span>
-          <span className="hidden text-[9px] font-medium uppercase tracking-[0.22em] text-neutral-500 sm:inline">
-            Now playing
-          </span>
+        </button>
+        <span
+          className="flex h-2 items-end gap-[2px] text-neutral-500"
+          aria-hidden
+        >
+          {barHeights.map((h, i) => (
+            <span
+              key={i}
+              className={`wave-bar ${playing ? "wave-bar--active" : ""}`}
+              style={{ height: `${h}%` }}
+            />
+          ))}
         </span>
-        <span className="italic-serif w-max text-lg leading-none text-black">
-          {music.title}
-        </span>
-
-      <button
-        type="button"
-        onClick={toggle}
-        aria-pressed={playing}
-        className={`min-h-11 px-2 py-2 transition-colors duration-300 hover:opacity-60 active:opacity-40 ${
-          playing
-            ? "text-black"
-            : "text-neutral-500"
-        }`}
-        aria-label={playing ? `Pause ${music.title}` : `Play ${music.title}`}
-      >
-        <span className="whitespace-nowrap text-[11px] font-medium uppercase tracking-[0.14em]">
-          {playing ? "Pause music" : "Play music"}
-        </span>
-      </button>
+      </div>
+      <span className="italic-serif w-max text-lg leading-none text-black">
+        {music.title}
+      </span>
       <span className="sr-only" aria-live="polite">
         {message}
       </span>

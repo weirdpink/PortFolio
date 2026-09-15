@@ -47,13 +47,12 @@ export function Contact() {
       <div className="mx-auto w-full px-6 pt-12 pb-6 md:px-12 md:pt-16 md:pb-8">
         <Reveal delay={0.05} y={40}>
           <h2 className="mt-10 md:mt-12 font-serif text-[clamp(4rem,12vw,11rem)] leading-[1.02] tracking-tight">
-            <a href={email?.href || "mailto:worksarmaan@gmail.com"} aria-label="Send an email to Armaan" className="inline-block">
               <span className="inline-block">
                 Let&apos;s make
               </span>{" "}
               <span className="italic-serif text-neutral-500">something</span>
               <br className="hidden md:block" />
-              <span className="group inline-block">
+              <a href={email?.href || "mailto:worksarmaan@gmail.com"} aria-label="Send an email to Armaan" className="group inline-block">
                 <span className="contact-underline inline-block">
                   worth reading.
                 </span>
@@ -62,8 +61,7 @@ export function Contact() {
                   strokeWidth={1.5}
                   className="inline-block ml-[0.15em] -rotate-45 text-neutral-500 transition-transform duration-300 group-hover:rotate-0"
                 />
-              </span>
-            </a>
+              </a>
           </h2>
         </Reveal>
 

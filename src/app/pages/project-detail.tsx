@@ -1,32 +1,20 @@
-import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import { ArrowLeft, ArrowUpRight, CheckCircle2 } from "lucide-react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { projects } from "../data";
 import { ImageWithFallback } from "../components/ImageWithFallback";
 import { writeSession } from "../browser";
+import { EASE } from "../constants";
 
 export default function ProjectDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [isExiting, setIsExiting] = useState(false);
-  const backTimer = useRef<number | undefined>();
+  const reduceMotion = useReducedMotion();
   const project = projects.find((p) => p.id === id);
 
-  useEffect(
-    () => () => {
-      if (backTimer.current) window.clearTimeout(backTimer.current);
-    },
-    [],
-  );
-
   const handleBack = () => {
-    if (isExiting) return;
-    setIsExiting(true);
     writeSession("returningFromProject", "true");
-    backTimer.current = window.setTimeout(() => {
-      navigate("/");
-    }, 140);
+    navigate("/");
   };
 
   if (!project) {
@@ -37,8 +25,7 @@ export default function ProjectDetail() {
         <button
           type="button"
           onClick={handleBack}
-          disabled={isExiting}
-          className="eyebrow group inline-flex h-12 items-center justify-center rounded-full border border-black/15 px-8 text-black transition-all hover:bg-black hover:text-white disabled:cursor-default disabled:opacity-50"
+          className="eyebrow group inline-flex h-12 items-center justify-center rounded-full border border-black/15 px-8 text-black transition-all hover:bg-black hover:text-white"
         >
           Return to Work
         </button>
@@ -50,9 +37,13 @@ export default function ProjectDetail() {
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 10 }}
-      animate={isExiting ? { opacity: 0, y: -8 } : { opacity: 1, y: 0 }}
-      transition={{ duration: isExiting ? 0.14 : 0.22, ease: [0.22, 1, 0.36, 1] }}
+      initial={{ opacity: 0, y: 28 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: reduceMotion ? 0 : 0.8,
+        ease: EASE,
+        delay: reduceMotion ? 0 : 0.6,
+      }}
       className="mx-auto w-full px-6 py-24 md:px-12 md:py-36"
     >
       {/* Top Navigation & Header */}
@@ -60,8 +51,7 @@ export default function ProjectDetail() {
         <button
           type="button"
           onClick={handleBack}
-          disabled={isExiting}
-          className="eyebrow group mb-8 inline-flex h-11 items-center justify-center gap-2 rounded-full border border-black/15 px-5 text-black transition-all hover:bg-black hover:text-white disabled:cursor-default disabled:opacity-50"
+          className="eyebrow group mb-8 inline-flex h-11 items-center justify-center gap-2 rounded-full border border-black/15 px-5 text-black transition-all hover:bg-black hover:text-white"
         >
           <ArrowLeft size={15} className="transition-transform duration-300 group-hover:-translate-x-1" />
           Back to Work
@@ -273,8 +263,7 @@ export default function ProjectDetail() {
         <button
           type="button"
           onClick={handleBack}
-          disabled={isExiting}
-          className="eyebrow group inline-flex items-center gap-2 text-black transition-opacity hover:opacity-70 disabled:cursor-default disabled:opacity-50"
+          className="eyebrow group inline-flex items-center gap-2 text-black transition-opacity hover:opacity-70"
         >
           <ArrowLeft size={15} className="transition-transform duration-300 group-hover:-translate-x-1" />
           Back to all work

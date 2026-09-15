@@ -1,32 +1,53 @@
-import { motion, useReducedMotion } from "motion/react";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { EASE } from "../constants";
 import { readSession } from "../browser";
 import { MusicPlayer } from "./music-player";
 
 const container = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+  show: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
 };
 
 const line = {
-  hidden: { opacity: 0, y: 40 },
-  show: { opacity: 1, y: 0, transition: { duration: 1, ease: EASE } },
+  hidden: { opacity: 0, y: 36, rotate: 1 },
+  show: {
+    opacity: 1,
+    y: 0,
+    rotate: 0,
+    transition: { duration: 0.6, ease: EASE },
+  },
 };
 
 export function Hero() {
   const reduceMotion = useReducedMotion();
-  const isReturning = readSession("returningFromProject") === "true";
+  const returning = readSession("returningFromProject") === "true";
+  const [intro, setIntro] = useState(false);
+
+  useEffect(() => {
+    if (returning || reduceMotion) {
+      setIntro(true);
+      return;
+    }
+    const onIntro = () => setIntro(true);
+    window.addEventListener("hero-intro", onIntro);
+    const fallback = window.setTimeout(onIntro, 7000);
+    return () => {
+      window.removeEventListener("hero-intro", onIntro);
+      window.clearTimeout(fallback);
+    };
+  }, [returning, reduceMotion]);
 
   return (
     <section
       id="top"
       tabIndex={-1}
-      className="relative mx-auto mt-10 flex min-h-[100dvh] w-full flex-col justify-center px-6 py-20 pb-28 md:mt-12 md:h-[100dvh] md:min-h-0 md:px-12 md:pb-32"
+      className="relative z-10 mx-auto flex min-h-[100dvh] w-full flex-col justify-center px-6 py-20 md:h-[100dvh] md:min-h-0 md:px-12 md:py-16"
     >
       <motion.div
         variants={container}
-        initial={isReturning ? "show" : "hidden"}
-        animate="show"
+        initial="hidden"
+        animate={intro ? "show" : "hidden"}
         className="flex w-full max-w-6xl flex-col items-start text-left"
       >
         <h1 className="font-serif text-[clamp(3.5rem,11.5vw,11.5rem)] leading-[0.95] tracking-[-0.02em]">
@@ -53,29 +74,7 @@ export function Hero() {
         </h1>
       </motion.div>
 
-      <motion.figure
-        layoutId="hero-image"
-        className="relative mt-12 aspect-[4/3] w-full max-w-xl overflow-hidden bg-neutral-100 md:absolute md:bottom-32 md:right-12 md:mt-0 md:w-[35%] md:max-w-none"
-        transition={{
-          layout: {
-            duration: reduceMotion ? 0 : 1.1,
-            ease: [0.16, 1, 0.3, 1],
-          },
-        }}
-      >
-        <img
-          src="/image.webp"
-          alt="Black-and-white mountain landscape"
-          width={2400}
-          height={1800}
-          loading="eager"
-          decoding="async"
-          className="h-full w-full object-cover object-[50%_48%]"
-        />
-        <div className="pointer-events-none absolute inset-0 bg-black/[0.03]" />
-      </motion.figure>
-
-      <MusicPlayer />
+      <AnimatePresence>{intro && <MusicPlayer key="music-player" />}</AnimatePresence>
     </section>
   );
 }

@@ -18,9 +18,9 @@ function WorkCard({ project }: { project: Project }) {
         className="group relative block aspect-square w-full overflow-hidden bg-neutral-950 select-none"
       >
         {/* Full bleed image filling the box */}
-        {project.cover ? (
+        {project.workCover ? (
           <ImageWithFallback
-            src={project.cover}
+            src={project.workCover}
             alt={project.title}
             className="h-full w-full object-cover"
             width={800}

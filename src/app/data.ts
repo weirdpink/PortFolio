@@ -6,6 +6,7 @@ export type Project = {
   discipline: "Design" | "Engineering";
   tools: string[];
   cover?: string;
+  workCover?: string;
   gallery: string[];
   link?: string;
   caseStudy: string;
@@ -86,6 +87,7 @@ export const projects: Project[] = [
     category: "Website",
     discipline: "Engineering",
     tools: ["React", "TypeScript", "SQLite", "TMDb"],
+    workCover: "/cinetrack.webp",
     gallery: [],
     link: "https://github.com/weirdpink/CIneTrack",
     caseStudy: "/project/p-cinetrack",
@@ -105,6 +107,7 @@ export const projects: Project[] = [
     category: "Website",
     discipline: "Engineering",
     tools: ["React", "TypeScript", "Node.js", "SQLite"],
+    workCover: "/gametrack.webp",
     gallery: [],
     link: "https://github.com/weirdpink/GameTrack",
     caseStudy: "/project/p-gametrack",

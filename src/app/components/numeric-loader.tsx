@@ -21,6 +21,7 @@ interface NumericLoaderProps {
 
 export function NumericLoader({ pathname }: NumericLoaderProps) {
   const [loading, setLoading] = useState(true);
+  const [count, setCount] = useState(0);
   const [isInitial, setIsInitial] = useState(() => !pathname.startsWith("/project/"));
   const [pageProgress, setPageProgress] = useState(0);
   const reduceMotion = useReducedMotion();
@@ -39,99 +40,68 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
   }, [loading]);
 
   useEffect(() => {
-    let cancelled = false;
-    let timedOut = false;
+    let rafId = 0;
     let timer: number | undefined;
-    let loadTimeout: number | undefined;
-    const pendingImages: HTMLImageElement[] = [];
 
-    const clearPendingImages = () => {
-      pendingImages.forEach((image) => {
-        image.onload = null;
-        image.onerror = null;
-      });
-    };
-
-    const finishInitialLoad = (startedAt: number) => {
-      if (cancelled) return;
-      const remaining = Math.max(0, 420 - (performance.now() - startedAt));
-      if (loadTimeout) window.clearTimeout(loadTimeout);
-      timer = window.setTimeout(() => {
-        if (!cancelled) setLoading(false);
-      }, remaining);
-    };
-
+    // Initial app launch: big bottom-left numeric loader counting to 100
     const startInitialLoading = () => {
       setLoading(true);
-      const image = new Image();
-      const startedAt = performance.now();
-      pendingImages.push(image);
-      loadTimeout = window.setTimeout(() => finishInitialLoad(startedAt), 4_000);
+      setCount(0);
 
-      image.onload = () => {
-        if (typeof image.decode === "function") {
-          void image.decode().catch(() => undefined).then(() => finishInitialLoad(startedAt));
+      const DURATION = reduceMotion ? 0 : 850;
+      const startTime = performance.now();
+
+      const tick = (now: number) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(1, elapsed / DURATION);
+        const nextCount = Math.min(100, Math.floor(progress * 100));
+        setCount(nextCount);
+
+        if (progress < 1) {
+          rafId = requestAnimationFrame(tick);
         } else {
-          finishInitialLoad(startedAt);
+          setCount(100);
+          timer = window.setTimeout(() => {
+            window.dispatchEvent(new CustomEvent("hero-intro"));
+            setLoading(false);
+          }, 70);
         }
       };
-      image.onerror = () => finishInitialLoad(startedAt);
-      image.src = "/image.webp";
+
+      rafId = requestAnimationFrame(tick);
     };
 
-    const preloadImage = (src: string) =>
-      new Promise<void>((resolve) => {
-        const image = new Image();
-        let settled = false;
-        pendingImages.push(image);
-
-        const finish = () => {
-          if (settled) return;
-          settled = true;
-          resolve();
-        };
-
-        image.onload = () => {
-          if (typeof image.decode === "function") {
-            void image.decode().catch(() => undefined).then(finish);
-          } else {
-            finish();
-          }
-        };
-        image.onerror = finish;
-        image.src = src;
-      });
-
+    // Opening a project page: centered text and progress bar
     const startPageLoading = (currentPath: string) => {
       setLoading(true);
       setPageProgress(0);
-      const startedAt = performance.now();
+
       const images = getImagesForRoute(currentPath);
-      let completed = 0;
-      loadTimeout = window.setTimeout(() => {
-        if (cancelled) return;
-        timedOut = true;
-        setLoading(false);
-      }, 4_000);
-
-      void Promise.all(
-        images.map((src) =>
-          preloadImage(src).then(() => {
-            if (cancelled) return;
-            completed += 1;
-            setPageProgress(Math.round((completed / images.length) * 92));
-          }),
-        ),
-      ).then(() => {
-        if (cancelled || timedOut) return;
-
-        if (loadTimeout) window.clearTimeout(loadTimeout);
-        setPageProgress(100);
-        const remaining = Math.max(0, 280 - (performance.now() - startedAt));
-        timer = window.setTimeout(() => {
-          if (!cancelled) setLoading(false);
-        }, remaining + 100);
+      images.forEach((src) => {
+        const img = new Image();
+        img.src = src;
       });
+
+      const FIXED_DURATION = reduceMotion ? 0 : 1100;
+      const startTime = performance.now();
+
+      const tick = (now: number) => {
+        const elapsed = now - startTime;
+        const progressRatio = Math.min(1, elapsed / FIXED_DURATION);
+        const currentPercent = Math.min(100, Math.floor(progressRatio * 100));
+        setPageProgress(currentPercent);
+
+        if (elapsed < FIXED_DURATION) {
+          rafId = requestAnimationFrame(tick);
+        } else {
+          setPageProgress(100);
+          timer = window.setTimeout(() => {
+            setLoading(false);
+          }, 100);
+        }
+      };
+
+      rafId = requestAnimationFrame(tick);
     };
 
     if (isFirstMount.current) {
@@ -145,83 +115,73 @@ export function NumericLoader({ pathname }: NumericLoaderProps) {
       }
     } else if (prevPathname.current !== pathname) {
       prevPathname.current = pathname;
-      // Only show loader when navigating into a project page, never when going back to home
-      if (pathname.startsWith("/project/")) {
-        setIsInitial(false);
-        startPageLoading(pathname);
-      } else {
-        setLoading(false);
-      }
+      // Smooth loader on every route change, into a project and back home
+      setIsInitial(false);
+      startPageLoading(pathname);
     }
 
     return () => {
-      cancelled = true;
+      cancelAnimationFrame(rafId);
       if (timer) window.clearTimeout(timer);
-      if (loadTimeout) window.clearTimeout(loadTimeout);
-      clearPendingImages();
     };
-  }, [pathname]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname, reduceMotion]);
 
   return (
     <AnimatePresence>
-      {loading && isInitial && (
+      {loading && (
         <motion.div
-          key="initial-loader"
-          layoutId="hero-image"
+          key={isInitial ? "initial-loader" : "page-loader"}
           initial={false}
+          animate={{ opacity: 1, y: 0 }}
+          exit={
+            isInitial
+              ? {
+                  opacity: 1,
+                  y: "-100%",
+                  transition: {
+                    duration: reduceMotion ? 0 : 0.45,
+                    ease: [0.76, 0, 0.24, 1],
+                  },
+                }
+              : {
+                  opacity: 0,
+                  y: 0,
+                  transition: {
+                    duration: reduceMotion ? 0 : 0.45,
+                    ease: [0.22, 1, 0.36, 1],
+                  },
+                }
+          }
           role="status"
-          aria-label="Loading portfolio"
-          className="fixed inset-0 z-[99999] overflow-hidden bg-neutral-950 select-none will-change-transform"
-          transition={{
-            layout: {
-              duration: reduceMotion ? 0 : 1.1,
-              ease: [0.16, 1, 0.3, 1],
-            },
-          }}
-        >
-          <motion.img
-            src="/image.webp"
-            alt=""
-            width={2400}
-            height={1800}
-            loading="eager"
-            decoding="async"
-            initial={reduceMotion ? false : { scale: 1.04 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: reduceMotion ? 0 : 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="h-full w-full object-cover object-[50%_48%]"
-          />
-          <div className="pointer-events-none absolute inset-0 bg-black/[0.03]" />
-        </motion.div>
-      )}
-
-      {loading && !isInitial && (
-        /* Opening a project page: centered text and loading bar */
-        <motion.div
-          key="page-loader"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.25 }}
-          role="status"
-          aria-live="polite"
-          aria-label="Loading project"
+          aria-label={isInitial ? "Loading portfolio" : "Loading project"}
           className="fixed inset-0 z-[99999] select-none bg-white text-neutral-950"
         >
-          <div className="flex h-full w-full flex-col items-center justify-center p-6 text-center">
-            <div className="flex w-full max-w-md flex-col items-center gap-5">
-              <p className="font-serif text-[clamp(1.5rem,3.5vw,2.25rem)] leading-snug tracking-tight text-neutral-950">
-                Good design takes a <span className="italic-serif italic">moment</span>.
-              </p>
-
-              <div className="relative h-[2px] w-full max-w-xs overflow-hidden bg-black/10">
-                <div
-                  className="h-full w-full origin-left bg-neutral-950 transition-transform duration-150 ease-out"
-                  style={{ transform: `scaleX(${pageProgress / 100})` }}
-                />
+          {isInitial ? (
+            /* 1. Initial app start: Big bottom-left numeric loader */
+            <div className="flex h-full w-full flex-col justify-end p-8 sm:p-14 md:p-20">
+              <div className="font-mono text-[clamp(6rem,20vw,15rem)] font-medium leading-none tracking-tighter tabular-nums text-neutral-950">
+                {count < 10 ? `0${count}` : count}
               </div>
             </div>
-          </div>
+          ) : (
+            /* 2. Opening a project page: Centered fancy text and loading bar */
+            <div className="flex h-full w-full flex-col items-center justify-center p-6 text-center">
+              <div className="flex flex-col items-center gap-5 w-full max-w-md">
+                <p className="font-serif text-[clamp(1.5rem,3.5vw,2.25rem)] leading-snug tracking-tight text-neutral-950">
+                  Good design takes a <span className="italic-serif italic">moment</span>.
+                </p>
+
+                {/* Loading bar */}
+                <div className="h-[2px] w-full max-w-xs bg-black/10 overflow-hidden relative">
+                  <div
+                    className="h-full w-full bg-neutral-950 origin-left"
+                    style={{ transform: `scaleX(${pageProgress / 100})` }}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
         </motion.div>
       )}
     </AnimatePresence>
