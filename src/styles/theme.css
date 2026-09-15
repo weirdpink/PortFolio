@@ -30,6 +30,8 @@
   --paper: #ffffff;
   --whisper: #6b6b6b;
   --hair: rgba(0, 0, 0, 0.1);
+  --selection-bg: rgba(0, 0, 0, 0.78);
+  --selection-foreground: #f4f4f4;
 }
 
 @theme inline {
@@ -96,6 +98,11 @@
   html {
     font-size: var(--font-size);
     scroll-padding-top: 6rem;
+  }
+
+  ::selection {
+    background: var(--selection-bg);
+    color: var(--selection-foreground);
   }
 
   :focus-visible {

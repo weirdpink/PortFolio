@@ -32,7 +32,7 @@ function useMarquee(sign: 1 | -1) {
     ro.observe(track);
 
     const onScroll = () => {
-      velocity += (window.scrollY - lastScroll) * 7;
+      velocity += (window.scrollY - lastScroll) * 4;
       lastScroll = window.scrollY;
     };
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -40,11 +40,11 @@ function useMarquee(sign: 1 | -1) {
     const frame = (now: number) => {
       const dt = Math.min((now - prev) / 1000, 0.05);
       prev = now;
-      velocity *= 0.88;
-      smooth += (velocity - smooth) * 0.09;
-      x += (120 + smooth) * dt;
+      velocity *= 0.9;
+      smooth += (velocity - smooth) * 0.08;
+      x += (80 + smooth * 0.7) * dt;
       if (half > 0) x = ((x % half) + half) % half;
-      const skew = Math.max(-8, Math.min(8, smooth * -0.02));
+      const skew = Math.max(-8, Math.min(8, smooth * -0.015));
       const dir = sign === 1 ? x : -x;
       track.style.transform = `translate3d(${dir}px,0,0) skewX(${skew}deg)`;
       raf = requestAnimationFrame(frame);

@@ -6,7 +6,7 @@ import { writeSession } from "../browser";
 
 function WorkCard({ project }: { project: Project }) {
   return (
-    <div className="relative w-full overflow-hidden border-b border-black/10 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
+    <div className="relative aspect-square w-full overflow-hidden border-t border-black/10 first:border-t-0 sm:border-t-0 sm:border-r sm:last:border-r-0 sm:border-b sm:border-b-black/10 sm:first:border-b-black/10">
       <Link
         to={project.caseStudy}
         onClick={() => {
@@ -14,12 +14,12 @@ function WorkCard({ project }: { project: Project }) {
           writeSession("returningFromProject", "true");
         }}
         aria-label={`View project ${project.title}`}
-        className="group relative block min-h-[280px] w-full bg-neutral-950 p-6 text-white transition-colors duration-300 hover:bg-neutral-900 sm:p-8"
+        className="group relative flex h-full w-full bg-[#171717] p-6 text-white transition-colors duration-300 hover:bg-[#0f0f0f] sm:p-8"
       >
-        <div className="flex h-full min-h-[240px] flex-col justify-between">
+        <div className="flex h-full w-full flex-col justify-between">
           <div className="flex items-start justify-between gap-4">
-            <span className="eyebrow text-[11px] uppercase tracking-[0.2em] text-neutral-400">
-              {project.category}
+            <span className="inline-flex w-fit items-center text-[11px] uppercase tracking-[0.2em] text-neutral-400 transition-colors duration-300 group-hover:text-[var(--selection-foreground)]">
+              View project
             </span>
 
             <span className="text-neutral-500 transition-all duration-300 group-hover:text-white group-hover:translate-x-1 group-hover:-translate-y-1">
@@ -27,15 +27,14 @@ function WorkCard({ project }: { project: Project }) {
             </span>
           </div>
 
-          <div>
+          <div className="flex flex-col gap-2">
+            <span className="eyebrow text-[11px] uppercase tracking-[0.2em] text-neutral-400">
+              {project.category}
+            </span>
             <h3 className="font-serif text-3xl leading-none tracking-tight text-white sm:text-4xl lg:text-[40px]">
               {project.title}
             </h3>
           </div>
-
-          <span className="inline-flex w-fit items-center text-[11px] uppercase tracking-[0.2em] text-neutral-400">
-            View project
-          </span>
         </div>
       </Link>
     </div>
